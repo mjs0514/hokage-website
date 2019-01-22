@@ -3,35 +3,26 @@
     <div>
       Main components id : {{this.$route.params.gnbMenu}}
     </div>
-<<<<<<< Updated upstream
     <Amenu v-if="this.$route.params.gnbMenu == 'A'"></Amenu>
-=======
-    <CMenu v-if="this.$route.params.gnbMenu == 'C'"></CMenu>
->>>>>>> Stashed changes
+    <Cmenu v-if="this.$route.params.gnbMenu == 'C'"></Cmenu>
     <router-view></router-view>
   </main>
 </template>
+
 <script>
-<<<<<<< Updated upstream
 import Amenu from '@/components/body/Amenu'
+import Cmenu from '@/components/body/Cmenu'
 export default {
   name:"Main",
   components : {
-    Amenu
-=======
-import CMenu from '@/components/body/CMenu'
-
-export default {
-  name:"Main",
-  components: {
-    CMenu
->>>>>>> Stashed changes
+    Amenu,
+    Cmenu
   }
 }
 </script>
+
 <style>
 main {
   clear: both;
 }
-
 </style>
