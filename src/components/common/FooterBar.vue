@@ -2,14 +2,8 @@
   <footer>
     <div class="wrap">
       <ul class="link">
-        <li class="link-item">
-          <router-link to="/A/A1"> about</router-link>
-        </li>
-        <li class="link-item" v-on:click="test">
-          <router-link to="/B/B1"> B1</router-link>
-        </li>
-        <li class="link-item">
-          <router-link to="/D"> D</router-link>
+        <li class="link-item" v-for="item in link" :key="item.id" v-on:click="clickLink(item)">
+          {{item.name}}
         </li>
       </ul>
       <div class="copyrights">© 2019-xxxx going.gg test</div>
@@ -28,11 +22,27 @@
   </footer>
 </template>
 <script>
+import EventBus from '@/utils/event-bus'
+
 export default{
   name:"footerbar",
+  data () {
+    return {
+      link : [{
+        id: 'about',
+        name: 'About',
+        path: '/A/A0'
+      },{
+        id: 'test',
+        name: 'Test',
+        path: '/B/B1'
+      }]
+    }
+  },
   methods: {
-    test : function() {
-      console.log('test');
+    clickLink : function(item) {
+      EventBus.$emit('routeTo', item.id);
+      this.$router.push({ path : item.path});
     }
   }
 }
