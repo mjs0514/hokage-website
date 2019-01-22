@@ -46,18 +46,12 @@ export default {
     this.selectedMenu = this.menu[0];
     this.isSelect = true;
 
-    /*
-    FIXME this를 self에 저장하는게 좋은 방식이 아닌걸로 알고 있는데
-    확인이 필요함
-    this.$EventBus.$on 이런식으로 사용하는 방법도 있는것같은데 이것도 개인적으로 좀 이상함
-    */
-
-    let _self = this;
-    EventBus.$on('routeTo', id => {
+    
+    EventBus.$on('routeTo', id => { //arrow function을 사용해서 해결
       if(id === 'about'){
-        _self.selectedMenu = _self.menu[0];
+        this.selectedMenu = this.menu[0];
       } else if (id === 'test') {
-        _self.selectedMenu = _self.menu[1];
+        this.selectedMenu = this.menu[1];
       } else {
         console.log('error');
       }
