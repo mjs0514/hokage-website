@@ -1,18 +1,15 @@
 <template>
-  <div class='container'>
+  <div class="container">
     <h2>Todo List</h2>
-    <div class='input-group'>
-      <input type='text' class='input-form' placeholder='할 일을 입력하세요~'>
-      <button class='input-button' type='button'>추가</button>
+    <div class="input-group">
+      <input type="text" class="input-form" placeholder="할 일을 입력하세요~" v-model="todo" v-on:keyup.enter="create(todo)">
+      <button type="button" class="input-button" @click="create(todo)">추가</button>
     </div>
-    <ul class='list-group'>
-      <li class='list-item' v-for='todo in todos'>
+    <ul class="list-group">
+      <li class="list-item" v-for="todo in todos">
       {{todo.name}}
-        <div class='dropdown'>
-          <button type='button' @click='show()' class='dropdown-button'>더 보기</button>
-          <div id='contents' class='dropdown-menu'>
-            <a href=#><li>삭제</li></a>
-          </div>
+        <div class="dropdown">
+          <button type="button" @click="remove()" class="remove-button">더 보기</button>
         </div>
       </li>
     </ul>
@@ -24,19 +21,13 @@
     name: 'TodoPage',
     data () {
       return {
-        todos: [
-          {
-            name:'페이지 만들기'
-          },
-          {
-            name:'밀린 드라마 보기'
-          }
-        ]
+        todos: JSON.parse(localStorage.getItem('todos'))
       }
     },
     methods:{
-      show() {
-        document.getElementById("contents").classList.toggle("show");
+      create() {
+      },
+      remove() {
       }
     }
   }
@@ -79,30 +70,13 @@
   .list-item {
     height: 50px;
   }
-  .dropdown {
+  .button {
     float: right;
     display: inline-block;
   }
-  .dropdown-button {
+  .remove-button {
     font-size: 13px;
     border: none;
     cursor: pointer;
-  }
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  .dropdown-menu a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  .show {
-    display: block;
   }
 </style>
