@@ -7,6 +7,7 @@
     <Bmenu v-if="this.$route.params.gnbMenu == 'B'"></Bmenu>
     <Cmenu v-if="this.$route.params.gnbMenu == 'C'"></Cmenu>
     <router-view></router-view>
+
   </main>
 </template>
 
