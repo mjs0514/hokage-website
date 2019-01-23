@@ -1,18 +1,18 @@
 <template>
-  <div class="container">
+  <div class='container'>
     <h2>Todo List</h2>
-    <div class="input-group">
-      <input type="text" class="input-form" placeholder="할 일을 입력하세요~">
-      <button class="input-button" type="button">추가</button>
+    <div class='input-group'>
+      <input type='text' class='input-form' placeholder='할 일을 입력하세요~'>
+      <button class='input-button' type='button'>추가</button>
     </div>
-    <ul class="list-group">
-      <li class="list-item" v-for="todo in todos">
+    <ul class='list-group'>
+      <li class='list-item' v-for='todo in todos'>
       {{todo.name}}
-        <div class="dropdown">
-          <button type="button" data-toggle="dropdown" aria-haspopup="ture" aria-expanded="false">더 보기</button>
-          <ul class="dropdown-menu">
-            <li>삭제</li>
-          </ul>
+        <div class='dropdown'>
+          <button type='button' @click='show()' class='dropdown-button'>더 보기</button>
+          <div id='contents' class='dropdown-menu'>
+            <a href=#><li>삭제</li></a>
+          </div>
         </div>
       </li>
     </ul>
@@ -32,6 +32,11 @@
             name:'밀린 드라마 보기'
           }
         ]
+      }
+    },
+    methods:{
+      show() {
+        document.getElementById("contents").classList.toggle("show");
       }
     }
   }
@@ -69,12 +74,35 @@
   .list-group {
     list-style: none;
     padding-left: 0px;
-    width: 300px;
+    width: 350px;
   }
   .list-item {
     height: 50px;
   }
   .dropdown {
     float: right;
+    display: inline-block;
+  }
+  .dropdown-button {
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+  }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .dropdown-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  .show {
+    display: block;
   }
 </style>
