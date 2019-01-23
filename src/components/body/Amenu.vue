@@ -1,5 +1,5 @@
 <template>
   <div>
-    AMenu 입니다/
+    A menu 입니다.
   </div>
 </template>

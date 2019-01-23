@@ -73,6 +73,7 @@ li {
 }
 
 .link-item {
+  cursor: pointer;
   width: 100px;
   text-align: center;
   display: inline-block;
