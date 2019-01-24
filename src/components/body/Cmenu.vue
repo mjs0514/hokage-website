@@ -10,6 +10,7 @@
   </div>
   <ul class="list-group">
     <li class="list-item" v-for="(todo,index) in todos">
+      <input type="checkbox" @click="complete(index)"/>
       {{todo.item}}
       <button type="button" class="remove-button" @click="remove(index)">삭제</button>
     </li>
@@ -37,6 +38,14 @@ export default {
         });
         localStorage.setItem('todos', JSON.stringify(list));
         window.location.reload();
+      }
+    },
+    complete(index) {
+      if (document.getElementsByClassName('list-item').item(index).children.item(0).checked == true) {
+        document.getElementsByClassName('list-item').item(index).classList.add('checked');
+      }
+      else {
+        document.getElementsByClassName('list-item').item(index).classList.remove('checked');
       }
     },
     remove(index) {
@@ -100,8 +109,12 @@ export default {
 .remove-button {
   float: right;
   font-size: 15px;
-  margin-right: 1px;
+  margin-right: 3px;
   border: none;
   cursor: pointer;
+}
+.checked {
+  text-decoration: line-through;
+  color: red;
 }
 </style>
