@@ -5,13 +5,13 @@
     <button type="button" style="float:right" @click="removeAll()">초기화</button>
   </div>
   <div class="input-group">
-    <input type="text" class="input-form" placeholder="할 일을 입력하세요~" v-model="todo" v-on:keyup.enter="createTodo(todo)">
-    <button type="button" class="input-button" @click="createTodo(todo)">추가</button>
+    <input type="text" class="input-form" placeholder=" 할 일을 입력하세요~" v-model="contents" v-on:keyup.enter="createTodo(contents)">
+    <button type="button" class="input-button" @click="createTodo(contents)">추가</button>
   </div>
   <ul class="list-group">
-    <li class="list-item" v-for="(todo,index) in todos">
+    <li class="list-item" v-for="(todo,index) in todos" ref="item">
       <input type="checkbox" @click="complete(index)"/>
-      {{todo.item}}
+      {{todo.contents}}
       <button type="button" class="remove-button" @click="remove(index)">삭제</button>
     </li>
   </ul>
@@ -27,40 +27,36 @@ export default {
     }
   },
   methods: {
-    createTodo(todo) {
-      if (localStorage.getItem('todos') == null) {
-        localStorage.setItem('todos', JSON.stringify([]));
+    createTodo(contents) {
+      if (this.todos == null) {
+        this.todos = [];
       }
-      if (this.todo != null) {
-        var list = JSON.parse(localStorage.getItem('todos'));
-        list.push({
-          item: todo
+      if (this.contents != null) {
+        this.todos.push({
+          contents: contents
         });
-        localStorage.setItem('todos', JSON.stringify(list));
-        window.location.reload();
+        this.contents = null;
+        localStorage.setItem('todos', JSON.stringify(this.todos));
       }
     },
     complete(index) {
-      if (document.getElementsByClassName('list-item').item(index).children.item(0).checked == true) {
-        document.getElementsByClassName('list-item').item(index).classList.add('checked');
-      }
-      else {
-        document.getElementsByClassName('list-item').item(index).classList.remove('checked');
+      if (this.$refs.item[index].children.item(0).checked == true) {
+        this.$refs.item[index].classList.add('completed');
+      } else {
+        this.$refs.item[index].classList.remove('completed');
       }
     },
     remove(index) {
-      var list = JSON.parse(localStorage.getItem('todos'));
-      list.splice(index, 1);
-      if (list.length == 0) {
+      this.todos.splice(index, 1);
+      if (this.todos.length == 0) {
         localStorage.removeItem('todos');
       } else {
-        localStorage.setItem('todos', JSON.stringify(list));
+        localStorage.setItem('todos', JSON.stringify(this.todos));
       }
-      window.location.reload();
     },
     removeAll() {
+      this.todos = [];
       localStorage.removeItem('todos');
-      window.location.reload();
     }
   }
 }
@@ -113,7 +109,8 @@ export default {
   border: none;
   cursor: pointer;
 }
-.checked {
+
+.completed {
   text-decoration: line-through;
   color: red;
 }
