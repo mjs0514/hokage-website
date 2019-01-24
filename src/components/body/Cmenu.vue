@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <h2>Todo List</h2>
-  <div style="width:353px; height:50px;">
+  <div style="width:453px; height:40px;">
     <button type="button" style="float:right" @click="removeAll()">초기화</button>
   </div>
   <div class="input-group">
@@ -72,12 +72,12 @@ export default {
 }
 
 .input-group {
-  height: 40px;
+  height: 50px;
 }
 
 .input-form {
   float: left;
-  width: 300px;
+  width: 400px;
   height: 30px;
   border-width: 1px;
   border-top-left-radius: 8px;
@@ -99,7 +99,7 @@ export default {
 .list-group {
   list-style: none;
   padding-left: 0px;
-  width: 350px;
+  width: 450px;
 }
 
 .list-item {
