@@ -10,7 +10,7 @@
   </div>
   <ul class="list-group">
     <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}">
-      <input type="checkbox" v-model="todo.checked" :key="todo.id" @change="complete()"/>
+      <input type="checkbox" v-model="todo.checked" @change="complete()"/>
       {{todo.contents}}
       <button type="button" class="remove-button" @click="remove(index)">삭제</button>
     </li>
