@@ -9,8 +9,8 @@
     <button type="button" class="input-button" @click="createTodo(contents)">추가</button>
   </div>
   <ul class="list-group">
-    <li class="list-item" v-for="(todo,index) in todos" ref="item">
-      <input type="checkbox" @click="complete(index)"/>
+    <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}" ref="item">
+      <input type="checkbox" v-model="todo.checked" @click="complete(index)"/>
       {{todo.contents}}
       <button type="button" class="remove-button" @click="remove(index)">삭제</button>
     </li>
@@ -23,6 +23,9 @@ export default {
   name: 'TodoPage',
   data() {
     return {
+      contents: '',
+      checked: false,
+      count: Number(localStorage.getItem('count')),
       todos: JSON.parse(localStorage.getItem('todos'))
     }
   },
@@ -30,26 +33,37 @@ export default {
     createTodo(contents) {
       if (this.todos == null) {
         this.todos = [];
+        this.count = 0;
       }
       if (this.contents != null) {
         this.todos.push({
-          contents: contents
+          id: this.count,
+          contents: contents,
+          checked: false
         });
         this.contents = null;
+        this.count = this.count + 1;
         localStorage.setItem('todos', JSON.stringify(this.todos));
+        localStorage.setItem('count', this.count);
       }
     },
     complete(index) {
       if (this.$refs.item[index].children.item(0).checked == true) {
         this.$refs.item[index].classList.add('completed');
+        this.todos[index].checked = true;
+        localStorage.setItem('todos', JSON.stringify(this.todos));
       } else {
         this.$refs.item[index].classList.remove('completed');
+        this.todos[index].checked = false;
+        localStorage.setItem('todos', JSON.stringify(this.todos));
       }
     },
     remove(index) {
       this.todos.splice(index, 1);
       if (this.todos.length == 0) {
         localStorage.removeItem('todos');
+        localStorage.removeItem('count');
+        this.count = 0;
       } else {
         localStorage.setItem('todos', JSON.stringify(this.todos));
       }
@@ -57,6 +71,8 @@ export default {
     removeAll() {
       this.todos = [];
       localStorage.removeItem('todos');
+      localStorage.removeItem('count');
+      this.count = 0;
     }
   }
 }
