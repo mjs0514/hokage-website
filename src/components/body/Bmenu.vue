@@ -72,7 +72,7 @@
               <td>{{account.amount}}</td>
               <td>{{account.description}}</td>
               <td>
-                <button class="button is-danger">삭제</button>
+                <button class="button is-danger" v-on:click="deleteList(index)">삭제</button>
                 <button class="button is-light">수정</button>
               </td>
             </tr>
@@ -105,14 +105,16 @@ data () {
 },
 methods:{
   createList : function(amount,des){
-      this.accountLists.push({amount:amount, description:des});
+    this.accountLists.push({amount:amount, description:des});
+  },
+  deleteList : function(index) {
+    this.accountLists.splice(index,1); // index부터 1개의 요소를 삭제함
   }
 }
 }
 </script>
 
 <style>
-
   td {
     padding: 0px 20px;
   }
