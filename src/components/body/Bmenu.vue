@@ -1,6 +1,6 @@
 <template>
   <div>
-    BMenu 입니다 test
+    BMenu 입니다 test 
   </div>
 </template>
 
