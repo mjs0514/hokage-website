@@ -108,7 +108,10 @@ methods:{
       this.accountLists.push({amount:amount, description:des});
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 966078c29dafe17cd763e608552d3cde237e0408
 }
 </script>
 
