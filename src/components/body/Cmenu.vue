@@ -19,16 +19,21 @@
             <ul class="sub-menu" ref="menu">
               <a href="#" @click="revise(index)"><li>수정</li></a>
               <a href="#" @click="remove(index)"><li>삭제</li></a>
-              <a href="#" @click="addChildren()"><li>하위업무</li></a>
+              <a href="#" @click="addChildren(index)"><li>하위업무</li></a>
             </ul>
         </span>
+        <ul>
+          <li v-for="(ddtodo, index) in todo.children">
+            {{ddtodo.contents}}
+          </li>
+        </ul>
     </li>
   </ul>
 </div>
 </template>
 
 <script>
-import TodoPopup from './TodoPopup.vue'
+import RevisePopup from './RevisePopup.vue'
 var $ = require('jquery');
 $(document).click(function(e){
   var target = $(e.target);
@@ -52,7 +57,7 @@ export default {
     }
   },
   components: {
-    TodoPopup
+    RevisePopup
   },
   methods: {
     createTodo(contents) {
@@ -105,7 +110,7 @@ export default {
       }
     },
     revise(index) {
-      this.$modal.show(TodoPopup, {
+      this.$modal.show(RevisePopup, {
         index : index,
         todos : this.todos
       }, {
@@ -113,6 +118,11 @@ export default {
         height: '200px',
         clickToClose: false,
         draggable: true})
+    },
+    addChildren(index) {
+      // if(this.todos[index].children == null) {
+      //   this.todos[index].children = 0;
+      // }
     }
   }
 }
