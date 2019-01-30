@@ -12,7 +12,15 @@
     <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}">
       <input type="checkbox" v-model="todo.checked" @change="complete()"/>
       {{todo.contents}}
-      <button type="button" class="remove-button" @click="remove(index)">삭제</button>
+      <a href="#" style="float: right;">
+        <img src="src/assets/menu-icon.png" class="beforeClick" @click="imgClick(index)" width="15px" height="15px" ref="img">
+          <ul class="sub-menu" ref="menu">
+            <a href="#"><li>수정</li></a>
+            <a href="#" @click="remove(index)"><li>삭제</li></a>
+            <a href="#"><li>하위업무</li></a>
+          </ul>
+        </img>
+      </a>
     </li>
   </ul>
 </div>
@@ -65,6 +73,17 @@ export default {
       localStorage.removeItem('todos');
       localStorage.removeItem('count');
       this.count = 0;
+    },
+    imgClick(index) {
+      if (this.$refs.img[index].classList.contains('afterClick')) {
+        this.$refs.img[index].classList.remove('afterClick');
+        this.$refs.menu[index].classList.remove('shown');
+      } else {
+        $('.afterClick').removeClass('afterClick');
+        $('.shown').removeClass('shown');
+        this.$refs.img[index].classList.add('afterClick');
+        this.$refs.menu[index].classList.add('shown');
+      }
     }
   }
 }
@@ -103,11 +122,31 @@ export default {
 .list-group {
   list-style: none;
   padding-left: 0px;
-  width: 450px;
+  width: 530px;
 }
 
 .list-item {
   height: 50px;
+}
+
+.beforeClick {
+  margin-right: 100px;
+}
+
+.afterClick {
+  margin-right: 36px;
+}
+
+.sub-menu {
+  list-style:none;
+  margin:0;
+  padding:0;
+  float: right;
+  display: none;
+}
+
+.shown {
+  display: inline-block;
 }
 
 .remove-button {
