@@ -6,14 +6,14 @@
     <button type="button" style="float:right" @click="removeAll()">초기화</button>
   </div>
   <div class="input-group">
-    <input type="text" class="input-form" placeholder=" 할 일을 입력하세요~" v-model="contents" v-on:keyup.enter="createTodo(contents)">
-    <button type="button" class="input-button" @click="createTodo(contents)">추가</button>
+    <input type="text" class="input-form" placeholder=" 할 일을 입력하세요~" v-model="contents" v-on:keyup.enter="createTodo()">
+    <button type="button" class="input-button" @click="createTodo()">추가</button>
   </div>
   <ul class="list-group">
-    <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}">
+    <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}" ref="list">
       <input type="checkbox" v-model="todo.checked" @change="complete()"/>
       {{todo.contents}}
-        <span class='menu-container'>
+        <span class="menu-container">
           <img src="src/assets/menu-icon.png" class="beforeClick" @click="imgClick(index)" width="15px" height="15px" ref="img"/>
             <img src="src/assets/hand-icon.png" class="hand" width="15px" height="15px" ref="hand"/>
             <ul class="sub-menu" ref="menu">
@@ -22,9 +22,10 @@
               <a href="#" @click="addChildren(index)"><li>하위업무</li></a>
             </ul>
         </span>
-        <ul>
-          <li v-for="(ddtodo, index) in todo.children">
-            {{ddtodo.contents}}
+        <ul style="margin-top: 10px;">
+          <li v-for="(task, subIndex) in todo.children">
+            {{task.contents}}
+            <img src="src/assets/trashBin-icon.png" style="margin-left: 10px; cursor: pointer;" width="15px" height="15px" @click="removeTask(index, subIndex)"/>
           </li>
         </ul>
     </li>
@@ -34,6 +35,7 @@
 
 <script>
 import RevisePopup from './RevisePopup.vue'
+import AddPopup from './AddPopup.vue'
 var $ = require('jquery');
 $(document).click(function(e){
   var target = $(e.target);
@@ -53,14 +55,16 @@ export default {
       count: Number(localStorage.getItem('count')),
       contents: '',
       checked: false,
+      children: [],
       todos: JSON.parse(localStorage.getItem('todos'))
     }
   },
   components: {
-    RevisePopup
+    RevisePopup,
+    AddPopup
   },
   methods: {
-    createTodo(contents) {
+    createTodo() {
       if (this.todos == null) {
         this.todos = [];
         this.count = 0;
@@ -68,8 +72,9 @@ export default {
       if (this.contents != null) {
         this.todos.push({
           id: this.count,
-          contents: contents,
-          checked: false
+          contents: this.contents,
+          checked: false,
+          children: []
         });
         this.contents = null;
         this.count = this.count + 1;
@@ -120,9 +125,18 @@ export default {
         draggable: true})
     },
     addChildren(index) {
-      // if(this.todos[index].children == null) {
-      //   this.todos[index].children = 0;
-      // }
+      this.$modal.show(AddPopup, {
+        index : index,
+        todos : this.todos
+      }, {
+        width: '500px',
+        height: '200px',
+        clickToClose: false,
+        draggable: true})
+    },
+    removeTask(index, subIndex) {
+      this.todos[index].children.splice(subIndex, 1);
+      localStorage.setItem('todos', JSON.stringify(this.todos));
     }
   }
 }
@@ -160,12 +174,13 @@ export default {
 
 .list-group {
   list-style: none;
-  padding-left: 0px;
-  width: 560px;
+  margin-left: 5px;
+  width: 655px;
 }
 
 .list-item {
-  height: 50px;
+  height: auto;
+  margin-top: 20px;
 }
 
 .menu-container {
@@ -178,12 +193,12 @@ a:hover {
 }
 
 .beforeClick {
-  margin-right: 129px;
+  margin-right: 228px;
   cursor: pointer;
 }
 
 .afterClick {
-  margin-right: 36px;
+  margin-right: 41px;
 }
 
 .sub-menu {
@@ -192,6 +207,11 @@ a:hover {
   padding:0;
   float: right;
   display: none;
+}
+
+ul.sub-menu li {
+  float: left;
+  margin-left: 10px;
 }
 
 .hand {
@@ -215,4 +235,5 @@ a:hover {
   text-decoration: line-through;
   color: red;
 }
+
 </style>
