@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <modals-container />
   <h2>Todo List</h2>
   <div style="width:453px; height:40px;">
     <button type="button" style="float:right" @click="removeAll()">초기화</button>
@@ -12,21 +13,34 @@
     <li class="list-item" v-for="(todo,index) in todos" :key="todo.id" v-bind:class="{completed: todo.checked}">
       <input type="checkbox" v-model="todo.checked" @change="complete()"/>
       {{todo.contents}}
-      <a href="#" style="float: right;">
-        <img src="src/assets/menu-icon.png" class="beforeClick" @click="imgClick(index)" width="15px" height="15px" ref="img">
-          <ul class="sub-menu" ref="menu">
-            <a href="#"><li>수정</li></a>
-            <a href="#" @click="remove(index)"><li>삭제</li></a>
-            <a href="#"><li>하위업무</li></a>
-          </ul>
-        </img>
-      </a>
+        <span class='menu-container'>
+          <img src="src/assets/menu-icon.png" class="beforeClick" @click="imgClick(index)" width="15px" height="15px" ref="img"/>
+            <img src="src/assets/hand-icon.png" class="hand" width="15px" height="15px" ref="hand"/>
+            <ul class="sub-menu" ref="menu">
+              <a href="#" @click="revise(index)"><li>수정</li></a>
+              <a href="#" @click="remove(index)"><li>삭제</li></a>
+              <a href="#" @click="addChildren()"><li>하위업무</li></a>
+            </ul>
+        </span>
     </li>
   </ul>
 </div>
 </template>
 
 <script>
+import TodoPopup from './TodoPopup.vue'
+var $ = require('jquery');
+$(document).click(function(e){
+  var target = $(e.target);
+  var a = target.hasClass('menu-container');
+  var b = target.hasClass('beforeClick');
+  var c = target.hasClass('hand');
+  var d = target.hasClass('sub-menu');
+  if(!a && !b && !c && !d) {
+    $('.afterClick').removeClass('afterClick');
+    $('.shown').removeClass('shown');
+  }
+});
 export default {
   name: 'TodoPage',
   data() {
@@ -36,6 +50,9 @@ export default {
       checked: false,
       todos: JSON.parse(localStorage.getItem('todos'))
     }
+  },
+  components: {
+    TodoPopup
   },
   methods: {
     createTodo(contents) {
@@ -77,13 +94,25 @@ export default {
     imgClick(index) {
       if (this.$refs.img[index].classList.contains('afterClick')) {
         this.$refs.img[index].classList.remove('afterClick');
+        this.$refs.hand[index].classList.remove('shown');
         this.$refs.menu[index].classList.remove('shown');
       } else {
         $('.afterClick').removeClass('afterClick');
         $('.shown').removeClass('shown');
         this.$refs.img[index].classList.add('afterClick');
+        this.$refs.hand[index].classList.add('shown');
         this.$refs.menu[index].classList.add('shown');
       }
+    },
+    revise(index) {
+      this.$modal.show(TodoPopup, {
+        index : index,
+        todos : this.todos
+      }, {
+        width: '500px',
+        height: '200px',
+        clickToClose: false,
+        draggable: true})
     }
   }
 }
@@ -122,15 +151,25 @@ export default {
 .list-group {
   list-style: none;
   padding-left: 0px;
-  width: 530px;
+  width: 560px;
 }
 
 .list-item {
   height: 50px;
 }
 
+.menu-container {
+  float: right;
+}
+
+a:hover {
+  text-decoration: none;
+  cursor: default;
+}
+
 .beforeClick {
-  margin-right: 100px;
+  margin-right: 129px;
+  cursor: pointer;
 }
 
 .afterClick {
@@ -143,6 +182,11 @@ export default {
   padding:0;
   float: right;
   display: none;
+}
+
+.hand {
+  display: none;
+  margin-right: 10px;
 }
 
 .shown {
