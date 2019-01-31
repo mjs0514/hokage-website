@@ -14,7 +14,8 @@ export default {
       return {
           subTask:'',
       }
-  }, props: [
+  },
+  props: [
     'index', 'todos'
   ],
   methods : {

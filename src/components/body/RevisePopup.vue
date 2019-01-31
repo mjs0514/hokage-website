@@ -14,13 +14,15 @@ export default {
       return {
           revisedContents:'',
       }
-  }, props: [
+  },
+  props: [
     'index', 'todos'
   ],
   methods : {
       revise(){
           this.todos[this.index].contents = this.revisedContents;
           this.revisedContents = null;
+          localStorage.setItem('todos', JSON.stringify(this.todos));
           this.$emit('close');
       }
   }
