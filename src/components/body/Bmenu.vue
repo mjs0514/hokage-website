@@ -9,26 +9,32 @@
       <!--title-->
       <p>가계부</p>
       <!--input form-->
+
       <div class="navbar fixed-bottom row" > <!--부트스트랩을 이용해 고정형 네비바를 만들고 싶을때-->
-        <input class="col-md-5" type="number" name="amount" v-model="amount" v-on:keyup.enter="createList(amount,des)" placeholder="금액">
-        <input class="col-md-5 form-control" type="text" name="description" v-model="des" v-on:keyup.enter="createList(amount,des)" placeholder="내역">
-        <button class="col-md-2 input-group-text" v-on:click="createList(amount,des)">저장</button> <!--보낼 값이 늘어나면 매번 파라미터를 늘려야되는가?-->
+        <select v-model="category" class="col-md-2 form-control">
+          <option disabled value="">항목</option>
+          <option value="수입">수입</option>
+          <option value="지출">지출</option>
+        </select>
+        <input class="col-md-4 form-control" type="number" name="amount" v-model="accountLists.amount" v-on:keyup.enter="createList()" placeholder="금액">
+        <input class="col-md-4 form-control" type="text" name="description" v-model="accountLists.description" v-on:keyup.enter="createList()" placeholder="내역">
+        <button class="col-md-2 input-group-text" v-on:click="createList()">저장</button> <!--보낼 값이 늘어나면 매번 파라미터를 늘려야되는가?-->
       </div>
-      <div class="jh-content">
+      <div>
       <!--contents-->
-      <table border=1>
+      <table border=1 style="margin-top:300px;">
         <thead>
           <tr>
             <th>번호</th>
             <th>날짜</th>
-            <th>범주</th>
+            <th>항목</th>
             <th>금액</th>
             <th>내용</th>
             <th>변경</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(account,index) in accountLists">
+          <tr v-for="(account,index) in accountLists" v-bind:style="account.tableColor">
             <td>{{index}}</td>
             <td>{{account.day}}</td>
             <td>{{account.category}}</td>
@@ -49,30 +55,48 @@
 </template>
 
 <script>
+
 export default {
   name: 'AccountBook',
   data() {
     return {
+      category : '',
       accountLists: [{
-        day: '2019.1.27',
+        day: '2019.01.27',
         category: '수입',
         amount: '1000',
-        description: "월급"
+        description: "월급",
+        tableColor : 'background-color: CornflowerBlue'
       }, {
-        day: '2019.1.28',
+        day: '2019.01.28',
         category: '지출',
         amount: '500',
-        description: "저녁"
+        description: "저녁",
+        tableColor : 'background-color:orange'
       }, ]
     }
   },
   methods: {
-    createList: function(amount, des) {
+    createList: function() {
+      if(this.category == "수입"){ /*--이렇게 조건을 거는게 최선인가?*/
       this.accountLists.push({
-        amount: amount,
-        description: des
+        day: this.$moment(new Date()).format('YYYY.MM.DD'), /*특정 포맷으로 현재 날짜 구하기*/
+        amount: this.accountLists.amount,
+        description: this.accountLists.description,
+        category: this.category,
+        tableColor: 'background-color:CornflowerBlue'
       });
-    },
+    } else{
+      this.accountLists.push({
+        day: this.$moment(new Date()).format('YYYY.MM.DD'), /*특정 포맷으로 현재 날짜 구하기*/
+        amount: this.accountLists.amount,
+        description: this.accountLists.description,
+        category: this.category,
+        tableColor: 'background-color:orange'
+    });
+  }
+},
+
     deleteList: function(index) {
       this.accountLists.splice(index,1);
     },
