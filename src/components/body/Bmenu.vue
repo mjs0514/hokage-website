@@ -62,6 +62,7 @@
               <th>금액</th>
               <th>내용</th>
               <th>변경</th>
+              <th>빈칸</th>
             </tr>
           </thead>
           <tbody>
@@ -74,6 +75,9 @@
               <td>
                 <button class="button is-danger" v-on:click="deleteList(index)">삭제</button>
                 <button class="button is-light">수정</button>
+              </td>
+              <td>
+                <input class="input" type="number" name="amount" v-model="amount" v-on:keyup.enter="createList(amount,des)" placeholder="금액">
               </td>
             </tr>
           </tbody>
@@ -105,10 +109,15 @@ data () {
 },
 methods:{
   createList : function(amount,des){
-    this.accountLists.push({amount:amount, description:des});
+    this.accountLists.push({amount:amount, description:des}); //1. 데이터에 추가하는 방법
+    localStorage.setItem('account', JSON.stringify(this.accountLists)); // 2. 로컬스토리지에 추가하는 방법
+    // 위의 방법으로 하면 모든 accountlists의 리스트가 한번에 추가되는데 입력받은 키벨류만 추가하는 방법은??
   },
   deleteList : function(index) {
     this.accountLists.splice(index,1); // index부터 1개의 요소를 삭제함
+  },
+  editList : function(index) {
+    // 수정버튼을 누르면 테이블의 모든 데이터를 수정할수있도록 입력 폼으로 변경되어야되는데?? 테이블안에서 입력폼넣을수 있나?
   }
 }
 }
