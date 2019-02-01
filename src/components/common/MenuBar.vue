@@ -46,7 +46,7 @@ export default {
     this.selectedMenu = this.menu[0];
     this.isSelect = true;
 
-    
+
     EventBus.$on('routeTo', id => { //arrow function을 사용해서 해결
       if(id === 'about'){
         this.selectedMenu = this.menu[0];
@@ -71,10 +71,16 @@ export default {
         name: 'A',
         children: [{
           id: 'A0',
-          name: 'A-0'
+          name: 'toast'
         }, {
           id: 'A1',
-          name: 'A-1'
+          name: 'iframe editor'
+        }, {
+          id: 'A2',
+          name: 'ace'
+        }, {
+          id: 'A3',
+          name: 'codemirror'
         }]
       }, {
         id: 'B',
@@ -133,7 +139,7 @@ export default {
 
 .gnb-menu, .lnb-menu {
   float: left;
-  width: 100px;
+  width: 150px;
   text-align: center;
 }
 
