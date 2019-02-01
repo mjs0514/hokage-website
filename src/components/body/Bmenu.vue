@@ -10,7 +10,8 @@
       <p>가계부</p>
       <!--input form-->
 
-      <div class="navbar fixed-bottom row" > <!--부트스트랩을 이용해 고정형 네비바를 만들고 싶을때-->
+      <div class="navbar fixed-bottom row" style="max-width:800px;">
+        <!--부트스트랩을 이용해 고정형 네비바를 만들고 싶을때-->
         <select v-model="category" class="col-md-2 form-control">
           <option disabled value="">항목</option>
           <option value="수입">수입</option>
@@ -18,35 +19,36 @@
         </select>
         <input class="col-md-4 form-control" type="number" name="amount" v-model="accountLists.amount" v-on:keyup.enter="createList()" placeholder="금액">
         <input class="col-md-4 form-control" type="text" name="description" v-model="accountLists.description" v-on:keyup.enter="createList()" placeholder="내역">
-        <button class="col-md-2 input-group-text" v-on:click="createList()">저장</button> <!--보낼 값이 늘어나면 매번 파라미터를 늘려야되는가?-->
+        <button class="col-md-2 input-group-text" v-on:click="createList()">저장</button>
+        <!--보낼 값이 늘어나면 매번 파라미터를 늘려야되는가?-->
       </div>
       <div>
-      <!--contents-->
-      <table border=1 style="margin-top:300px;">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>날짜</th>
-            <th>항목</th>
-            <th>금액</th>
-            <th>내용</th>
-            <th>변경</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(account,index) in accountLists" v-bind:style="account.tableColor">
-            <td>{{index}}</td>
-            <td>{{account.day}}</td>
-            <td>{{account.category}}</td>
-            <td>{{account.amount}}</td>
-            <td>{{account.description}}</td>
-            <td>
-              <button v-on:click="deleteList(index)">삭제</button>
-              <button >수정</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <!--contents-->
+        <table class="table" border=1 style="margin-top:300px; max-width:800px; ">
+          <thead>
+            <tr style="background-color:rgb(156, 168, 156)">
+              <th scope="col">번호</th>
+              <th scope="col">날짜</th>
+              <th scope="col">항목</th>
+              <th scope="col">금액</th>
+              <th scope="col">내용</th>
+              <th scope="col">변경</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(account,index) in accountLists" v-bind:style="account.tableColor">
+              <td>{{index}}</td>
+              <td>{{account.day}}</td>
+              <td>{{account.category}}</td>
+              <td>{{account.amount}}</td>
+              <td>{{account.description}}</td>
+              <td>
+                <button v-on:click="deleteList(index)">삭제</button>
+                <button>수정</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
     </div>
@@ -55,50 +57,47 @@
 </template>
 
 <script>
-
 export default {
   name: 'AccountBook',
   data() {
     return {
-      category : '',
+      category: '',
       accountLists: [{
         day: '2019.01.27',
         category: '수입',
         amount: '1000',
         description: "월급",
-        tableColor : 'background-color: CornflowerBlue'
+        tableColor: 'background-color: rgb(70, 169, 232)'
       }, {
         day: '2019.01.28',
         category: '지출',
         amount: '500',
         description: "저녁",
-        tableColor : 'background-color:orange'
+        tableColor: 'background-color:rgb(255, 108, 54)'
       }, ]
     }
   },
   methods: {
     createList: function() {
-      if(this.category == "수입"){ /*--이렇게 조건을 거는게 최선인가?*/
+      var tc = null;
+      if (this.category == "수입") {
+        tc = 'background-color:rgb(70, 169, 232)'
+      } else if (this.category == "지출") {
+        tc = 'background-color:rgb(255, 108, 54)'
+      } else {
+        tc = 'background-color:rgb(255, 255, 255)'
+      }
       this.accountLists.push({
-        day: this.$moment(new Date()).format('YYYY.MM.DD'), /*특정 포맷으로 현재 날짜 구하기*/
+        day: this.$moment(new Date()).format('YYYY.MM.DD'),/*특정 포맷으로 현재 날짜 구하기*/
         amount: this.accountLists.amount,
         description: this.accountLists.description,
         category: this.category,
-        tableColor: 'background-color:CornflowerBlue'
+        tableColor: tc
       });
-    } else{
-      this.accountLists.push({
-        day: this.$moment(new Date()).format('YYYY.MM.DD'), /*특정 포맷으로 현재 날짜 구하기*/
-        amount: this.accountLists.amount,
-        description: this.accountLists.description,
-        category: this.category,
-        tableColor: 'background-color:orange'
-    });
-  }
-},
+    },
 
     deleteList: function(index) {
-      this.accountLists.splice(index,1);
+      this.accountLists.splice(index, 1);
     },
     clickBtn(event) {
       console.log('1');
@@ -108,30 +107,36 @@ export default {
 }
 </script>
 
-<style scoped> /* scoped를 붙이면 해당하는 컴포넌트에만 style을 적용하는것 */
+<style scoped>
+/* scoped를 붙이면 해당하는 컴포넌트에만 style을 적용하는것 */
 td {
   padding: 0px 20px;
 }
+
 th {
   padding: 0px 20px;
 }
+
 .jh-content {
-  margin-top:20px;
+  margin-top: 20px;
 }
 
-@media (max-width:400px) { /* 브라우저 크기 0~400일때 적용되는 구문 */
+@media (max-width:400px) {
+  /* 브라우저 크기 0~400일때 적용되는 구문 */
   p {
-    background-color:blue;
+    background-color: blue;
   }
 }
-@media (min-width:401px) and (max-width:600px){
+
+@media (min-width:401px) and (max-width:600px) {
   p {
-    background-color:green;
+    background-color: green;
   }
 }
-@media (min-width:601px) and (max-width:768px){
+
+@media (min-width:601px) and (max-width:768px) {
   p {
-    background-color:red;
+    background-color: red;
   }
 }
 </style>
