@@ -16,22 +16,20 @@
 
       <!--입력 폼-->
       <div class="navbar fixed-bottom row" style="max-width:800px;">
-        <!--부트스트랩을 이용해 고정형 네비바를 만들고 싶을때-->
         <select v-model="category" class="col-md-2 form-control">
           <option disabled value="">항목</option>
-          <option value="수입">수입</option>
+          <option value="수입">수입</option> <!--밸류의 값인 "수입"을 가져오는게 아니라 태그안에 있는 수입을 가져오고 싶으면 어떻게함??-->
           <option value="지출">지출</option>
         </select>
         <input class="col-md-4 form-control" type="number" name="amount" v-model="accountLists.amount" v-on:keyup.enter="createList()" placeholder="금액">
         <input class="col-md-4 form-control" type="text" name="description" v-model="accountLists.description" v-on:keyup.enter="createList()" placeholder="내역">
         <button class="col-md-2 input-group-text" v-on:click="createList()">저장</button>
-        <!--보낼 값이 늘어나면 매번 파라미터를 늘려야되는가?-->
       </div>
 
         <!--상세내역-->
         <table class="table" border=1 style="margin-top:100px; max-width:800px; ">
           <thead>
-            <tr style="background-color:rgb(156, 168, 156)">
+            <tr style="background-color:rgb(163, 151, 151)">
               <th scope="col">번호</th>
               <th scope="col">날짜</th>
               <th scope="col">항목</th>
@@ -41,7 +39,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(account,index) in accountLists" v-bind:style="account.tableColor">
+            <tr v-for="(account,index) in accountLists" v-bind:style="account.tableColor"> <!--테이블색은 v-bind로 스타일 속성을 변경-->
               <td>{{index}}</td>
               <td>{{account.day}}</td>
               <td>{{account.category}}</td>
@@ -72,45 +70,42 @@ export default {
       accountLists: [{
         day: '2019.01.27',
         category: '수입',
-        amount: 0 ,
+        amount: 0,
         description: "월급",
-        tableColor: 'background-color: rgb(70, 169, 232)'
+        tableColor: 'background-color: rgb(132, 199, 242)'
       }, {
         day: '2019.01.28',
         category: '지출',
         amount: 0,
         description: "저녁",
-        tableColor: 'background-color:rgb(255, 108, 54)'
+        tableColor: 'background-color:rgb(255, 130, 15)'
       }, ]
     }
   },
   methods: {
     createList: function() { /* 저장버튼을 누를때 값을 계산하는게 좋은 방법이 아닌것 같음, 저장된 내역을 계산하는게 더 좋은방법같은데 */
-      var tc = null;
+      var tablecolor = null;
       if (this.category == "수입") {
-        tc = 'background-color:rgb(70, 169, 232)'
-        this.totalIncome += Number(this.accountLists.amount);
+        tablecolor = 'background-color:rgb(132, 199, 242)'
+        this.totalIncome += Number(this.accountLists.amount); /*문자로 인식되서 숫자로 변환한뒤 더해줘야함 왜 문자로인식하지???*/
       } else if (this.category == "지출") {
-        tc = 'background-color:rgb(255, 108, 54)'
+        tablecolor = 'background-color:rgb(255, 130, 15)'
         this.totalExpend += Number(this.accountLists.amount);
       } else {
-        tc = 'background-color:rgb(255, 255, 255)'
+        tablecolor = 'background-color:rgb(255, 255, 255)'
       }
       this.accountLists.push({
-        day: this.$moment(new Date()).format('YYYY.MM.DD'),/*특정 포맷으로 현재 날짜 구하기*/
+        day: this.$moment(new Date()).format('YYYY.MM.DD'), /* moment.js 시간,날짜 다루기 쉽게 도와주는 lib, 특정 포맷으로 현재 날짜 구하는 방법*/
         amount: this.accountLists.amount,
         description: this.accountLists.description,
         category: this.category,
-        tableColor: tc
+        tableColor: tablecolor
       });
       this.totalAmount = this.totalIncome - this.totalExpend;
     },
 
     deleteList: function(index) {
       this.accountLists.splice(index, 1);
-    },
-    clickBtn(event) {
-      console.log('1');
     }
   }
 
@@ -118,9 +113,7 @@ export default {
 </script>
 
 
-  }
-}
-
+<style>
 @media (min-width:601px) and (max-width:768px) {
   p {
     background-color: red;
