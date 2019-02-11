@@ -9,6 +9,7 @@
     <a3menu v-else-if="this.$route.params.lnbMenu == 'A3'"></a3menu>
 
     <C0menu v-if="this.$route.params.lnbMenu == 'C0'"></C0menu>
+    <C1menu v-else-if="this.$route.params.lnbMenu == 'C1'"></C1menu>
     <div v-else>
       일치하는 sub menu가 없습니다.
     </div>
@@ -20,6 +21,7 @@ import A1menu from '@/components/body/A1menu'
 import A2menu from '@/components/body/A2menu'
 import A3menu from '@/components/body/A3menu'
 import C0menu from '@/components/body/C0menu'
+import C1menu from '@/components/body/C1menu'
 
 export default {
   name:"Sub",
@@ -28,7 +30,8 @@ export default {
     A1menu,
     A2menu,
     A3menu,
-    C0menu
+    C0menu,
+    C1menu
   }
 }
 </script>
