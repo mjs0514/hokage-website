@@ -97,10 +97,10 @@ export default {
         name: 'C',
         children: [{
           id: 'C0',
-          name: 'C-0'
+          name: 'todo'
         }, {
           id: 'C1',
-          name: 'C-1'
+          name: 'test'
         }]
       }, {
         id: 'D',
