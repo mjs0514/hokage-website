@@ -3,17 +3,12 @@
   <v-app id="inspire">
     <v-container fluid>
       <v-layout row wrap align-center>
-        <v-flex xs12 sm6>
+        <v-flex>
           <div class="text-xs-center">
             <p><a href="https://vuetifyjs.com/ko/components/api-explorer" target="_blank">Vuetify 공식 문서</a></p>
             <div>
-              <v-btn small color="primary" dark>Small Button</v-btn>
-            </div>
-            <div>
-              <v-btn color="warning" dark>Normal Button</v-btn>
-            </div>
-            <div>
-              <v-btn color="error" dark large>Large Button</v-btn>
+              <v-btn small color="red" small class="test col-md-4">Small Button</v-btn>
+              <v-btn color="black" class="blue--text col-md-4">Normal Button</v-btn>
             </div>
             <div>
               <v-btn color="primary" fab small dark>
@@ -46,3 +41,14 @@
   </v-app>
 </div>
 </template>
+
+<style>
+.test {
+  /* width: 150px;
+  height: 150px; */
+}
+
+.test .v-btn__content {
+  color: blue;
+}
+</style>
