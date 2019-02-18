@@ -6,8 +6,10 @@
 
   <div>
     <div>
+
       <!--타이틀-->
       <p>가계부</p>
+      
 
       <!--통계-->
       <p> 총 합계 : {{totalAmount}} </p>
@@ -21,7 +23,7 @@
           <option value="수입">수입</option> <!--밸류의 값인 "수입"을 가져오는게 아니라 태그안에 있는 수입을 가져오고 싶으면 어떻게함??-->
           <option value="지출">지출</option>
         </select>
-        <input class="col-md-4 form-control" type="number" name="amount" v-model="accountLists.amount" v-on:keyup.enter="createList()" placeholder="금액">
+        <input class="col-md-4 form-control" type="number" name="amount" v-model.number="accountLists.amount" v-on:keyup.enter="createList()" placeholder="금액">
         <input class="col-md-4 form-control" type="text" name="description" v-model="accountLists.description" v-on:keyup.enter="createList()" placeholder="내역">
         <button class="col-md-2 input-group-text" v-on:click="createList()">저장</button>
       </div>
@@ -59,7 +61,9 @@
 </template>
 
 <script>
+
 export default {
+
   name: 'AccountBook',
   data() {
     return {
@@ -83,19 +87,19 @@ export default {
     }
   },
   methods: {
-    createList: function() { /* 저장버튼을 누를때 값을 계산하는게 좋은 방법이 아닌것 같음, 저장된 내역을 계산하는게 더 좋은방법같은데 */
+    createList: function() { /* 저장버튼을 누를때 값을 계산하는게 좋은 방법이 아닌것 같음, 삭제할때도 계산을 두번해야되는 단점있음, 저장된 내역을 계산하는게 더 좋은방법같은데 */
       var tablecolor = null;
       if (this.category == "수입") {
-        tablecolor = 'background-color:rgb(132, 199, 242)'
-        this.totalIncome += Number(this.accountLists.amount); /*문자로 인식되서 숫자로 변환한뒤 더해줘야함 왜 문자로인식하지???*/
+        tablecolor = 'background-color:rgb(132, 199, 242)' /*테이블컬러를 변수로 가지고 있는건 좋은 방법 아님*/
+        this.totalIncome += this.accountLists.amount;
       } else if (this.category == "지출") {
         tablecolor = 'background-color:rgb(255, 130, 15)'
-        this.totalExpend += Number(this.accountLists.amount);
+        this.totalExpend += this.accountLists.amount;
       } else {
         tablecolor = 'background-color:rgb(255, 255, 255)'
       }
       this.accountLists.push({
-        day: this.$moment(new Date()).format('YYYY.MM.DD'), /* moment.js 시간,날짜 다루기 쉽게 도와주는 lib, 특정 포맷으로 현재 날짜 구하는 방법*/
+        day: this.$moment(new Date()).format('YYYY.MM.DD'),
         amount: this.accountLists.amount,
         description: this.accountLists.description,
         category: this.category,
@@ -111,7 +115,6 @@ export default {
 
 }
 </script>
-
 
 <style>
 @media (min-width:601px) and (max-width:768px) {
