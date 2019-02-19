@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      이벤트(event) 입니다.
+      홈(home) 입니다.
     </p>
   </div>
 </template>

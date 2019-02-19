@@ -3,15 +3,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
+import 'expose-loader?$!expose-loader?jQuery!jquery'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.config.productionTip = false
-Vue.config.silent = true
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-
-  //components: { App },
-  //template: '<App/>'
+  components: { App },
+  template: '<App/>'
 })

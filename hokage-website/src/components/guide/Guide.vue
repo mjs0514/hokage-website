@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      이벤트(event) 입니다.
+      가이드(guide) 입니다.
     </p>
   </div>
 </template>
@@ -13,5 +13,4 @@ export default {
 
 
 <style>
-p {padding-top: 1000px;}
 </style>
