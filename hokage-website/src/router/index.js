@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/common/home'
+import Home from '@/components/common/Home'
 import Notice from '@/components/news/Notice'
 import Event from '@/components/news/Event'
 import Update from '@/components/news/Update'
