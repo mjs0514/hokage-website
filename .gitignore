@@ -1,0 +1,11 @@
+#hokage-server
+hokage-server/node_modules/
+hokage-server/public/
+
+#hokage-website
+hokage-website/.DS_Store
+hokage-website/node_modules/
+hokage-website/dist/
+hokage-website/npm-debug.log*
+hokage-website/yarn-debug.log*
+hokage-website/yarn-error.log*
