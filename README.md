@@ -7,7 +7,7 @@ Hokage project consist of three modules
 
 # Platform Specification
 
-> node(v11.3.0)
-> npm(6.8.0)
-> unity
+> node(v11.3.0),
+> npm(6.8.0),
+> unity,
 > ..
