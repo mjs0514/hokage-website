@@ -1,6 +1,6 @@
 <template>
   <b-container >
-        <b-jumbotron class="hi" header="BootstrapVue" lead="Bootstrap 4 Components for Vue.js 2">
+        <b-jumbotron header="BootstrapVue" lead="Bootstrap 4 Components for Vue.js 2">
           <p>For more information visit our website</p>
           <b-btn variant="primary" href="https://bootstrap-vue.js.org/">More Info</b-btn>
         </b-jumbotron>
@@ -20,6 +20,4 @@
 
 
 <style>
-
-.hi {margin-top: 500px;}
 </style>

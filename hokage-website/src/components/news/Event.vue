@@ -13,5 +13,5 @@ export default {
 
 
 <style>
-p {padding-top: 1000px;}
+/* p {padding-top: 1000px;} */
 </style>
