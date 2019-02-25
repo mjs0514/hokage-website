@@ -9,15 +9,23 @@
           horizontal
           :label-cols="4"
           description="Let us know your name."
-          label="Enter your name"
-        >
+          label="Enter your name">
           <b-form-input v-model.trim="name"></b-form-input>
         </b-form-group>
 
         <b-alert variant="success" :show="showAlert">Hello {{ name }}</b-alert>
       </b-container>
 </template>
-
+<script>
+export default {
+  data : function(){
+    return {
+      name : 's',
+      showAlert : 'show'
+    }
+  }
+}
+</script>
 
 <style>
 </style>
