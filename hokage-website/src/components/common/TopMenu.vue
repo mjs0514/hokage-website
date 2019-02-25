@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
-      <b-navbar-brand href="/">HOKEGE</b-navbar-brand>
+      <b-navbar-brand style="color:orange" href="/">HOKEGE</b-navbar-brand>
       <b-navbar-toggle target="nav_collapse" />
 
       <b-collapse is-nav id="nav_collapse">
@@ -43,19 +43,13 @@
         </div>
       </b-nav-item>
 
-      <b-nav-item-dropdown href="/notice" text="새소식">
-        <b-dropdown-item href="/notice">공지사항</b-dropdown-item>
-        <b-dropdown-item href="/update">업데이트</b-dropdown-item>
-        <b-dropdown-item href="/event">이벤트</b-dropdown-item>
-      </b-nav-item-dropdown>
-
     </b-navbar-nav>
 
     <b-button variant="outline-success" to="/login">로그인</b-button>
 
     </b-collapse>
   </b-navbar>
-  
+
   </div>
 </template>
 
@@ -90,6 +84,6 @@ export default {
   display: block;
 
 }
-.dropdown-menu a:hover {background-color: rgb(134, 131, 131,0.5); color:rgb(238, 167, 61);}
+.dropdown-menu a:hover {color:orange;}
 
 </style>

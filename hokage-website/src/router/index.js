@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/common/Home'
 import Login from '@/components/common/Login'
+import SignUp from '@/components/common/SignUp'
 import Notice from '@/components/news/Notice'
 import Event from '@/components/news/Event'
 import Update from '@/components/news/Update'
@@ -42,6 +43,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
     },
   ]
 })
