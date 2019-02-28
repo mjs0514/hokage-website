@@ -115,8 +115,7 @@ export default {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
       }
-    } 
-
+    }
 }
 </script>
 

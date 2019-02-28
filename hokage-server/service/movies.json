@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "나루토",
+    "image": "http://cfile219.uf.daum.net/image/263BFF4E52DF6C2A1522F5"
+  },
+  {
+    "id": 2,
+    "name": "사쿠라",
+    "year": 2017,
+    "director": "드니 빌뇌브",
+    "image": "http://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79437/79437_185.jpg"
+  },
+  {
+    "id": 3,
+    "name": "사스케",
+    "year": 2017,
+    "director": "한재림",
+    "image": "http://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79423/79423_185.jpg"
+  },
+  {
+    "id": 4,
+    "name": "히나타",
+    "year": 2017,
+    "director": "론 클레멘츠, 존 머스커",
+    "image": "http://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79316/79316_185.jpg"
+  },
+  {
+    "id": 5,
+    "name": "키바",
+    "year": 2017,
+    "director": "가스 데이비스",
+    "image": "http://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79396/79396_185.jpg"
+  },
+  {
+    "id": 6,
+    "name": "시노",
+    "year": 2017,
+    "director": "가스 데이비스",
+    "image": "http://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79396/79396_185.jpg"
+  }
+]
