@@ -1,13 +1,19 @@
-# Hokage Project
-Hokage project consist of three modules
+# Hokage-Website
+The project consist of two part.
 
-> hokage-website,
-> hokage-server,
-> hokage-game
+* hokage-webapp
+* hokage-server
 
-# Platform Specification
+## hokage-webapp
+front-end source
 
-> node(v11.3.0),
-> npm(6.8.0),
-> unity,
-> ..
+* node.js - v11.3.0
+* npm     - 6.8.0
+* vue.js
+
+## hokage-server
+back-end source
+
+* node.js - v11.3.0
+* npm     - 6.8.0
+* express.js

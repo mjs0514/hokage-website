@@ -1,7 +1,7 @@
 {
-  "name": "hokage-website",
+  "name": "hokage-webapp",
   "version": "1.0.0",
-  "description": "hokage game website",
+  "description": "hokage game webapp",
   "author": "",
   "private": true,
   "scripts": {

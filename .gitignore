@@ -2,10 +2,10 @@
 hokage-server/node_modules/
 hokage-server/public/
 
-#hokage-website
-hokage-website/.DS_Store
-hokage-website/node_modules/
-hokage-website/dist/
-hokage-website/npm-debug.log*
-hokage-website/yarn-debug.log*
-hokage-website/yarn-error.log*
+#hokage-webapp
+hokage-webapp/.DS_Store
+hokage-webapp/node_modules/
+hokage-webapp/dist/
+hokage-webapp/npm-debug.log*
+hokage-webapp/yarn-debug.log*
+hokage-webapp/yarn-error.log*
