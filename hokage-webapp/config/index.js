@@ -3,6 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const env = require('./env')
 
 module.exports = {
   dev: {
@@ -10,19 +11,11 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: { // express와 연동을 위해 새롭게 추가한 부분, vue페이지에서 /service로 요청이 들어오면 3000/service을 프록시로 사용함
-      '/service': {
-          target: 'http://localhost:3000/service',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/service': ''
-          }
-        }
-    },
+    proxyTable: env.proxyTable,
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: env.HOST, // can be overwritten by process.env.HOST
+    port: env.PORT, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,

@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
-import Axios from 'axios'
+//import axios from 'axios'
 
 import router from '@/router'
 import 'expose-loader?$!expose-loader?jQuery!jquery'
@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.prototype.$http = Axios // vue앱에서 this.$http로 http요청을 할수 있음
+//Vue.prototype.$http = axios // vue앱에서 this.$http로 http요청을 할수 있음
 
 Vue.use(BootstrapVue)
 
