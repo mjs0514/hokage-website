@@ -7,6 +7,7 @@
     "dev": "nodemon ./bin/www localhost 3000"
   },
   "dependencies": {
+    "babel": "^6.23.0",
     "connect-history-api-fallback": "^1.6.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -17,6 +18,7 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
+    "babel-loader": "^8.0.5",
     "nodemon": "^1.18.10"
   }
 }

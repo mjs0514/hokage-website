@@ -10,3 +10,4 @@ hokage-webapp/npm-debug.log*
 hokage-webapp/yarn-debug.log*
 hokage-webapp/yarn-error.log*
 hokage-webapp/config/env.js
+hokage-server/config/env.js
