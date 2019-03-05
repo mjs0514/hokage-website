@@ -4,12 +4,12 @@
     <p>
       HOKAGE
     </p>
-    <b-form @submit="onSubmit">
+    <b-form v-on:submit="onSubmit">
    <b-form-group>
-     <b-form-input v-model="username" type="text" placeholder="아이디" required/>
+     <b-form-input v-model="id" type="text" placeholder="아이디" required/>
    </b-form-group>
 
-   <b-form-group :invalid-feedback="invalidFeedback">
+   <b-form-group>
      <b-form-input v-model="password" type="password" placeholder="비밀번호" required/>
    </b-form-group>
 
@@ -25,6 +25,43 @@
 
 <script>
 export default {
+  name: "Login",
+  data() {
+    return {
+      id : '',
+      password : ''
+    }
+  },
+  methods: {
+    onSubmit: function(e) {
+      e.preventDefault() // 현재 이벤트의 기본 동작을 중단, 내가 정의한 이벤트만 발생하게하기 위해 사용
+      let login = () => { // 함수 정의
+        let data = {
+          id : this.id,
+          password : this.password
+        }
+        this.$http.post("/service/auth/login", data)
+        .then((response) => {
+          if(response.data === 'ok'){
+            console.log("login ok test")
+            console.log(response)
+            console.log(response.data) //
+            this.$router.push("/")
+          } else if (response.data === 'no'){
+            console.log("login no test")
+          } else{
+            console.log("login else test")
+            console.log(response) //응답의 내용 확인
+          }
+        })
+        .catch((errors) => {
+          console.log("login fail")
+          console.log(errors)
+        })
+      }
+      login() // 함수 호출
+    }
+  }
 }
 </script>
 
