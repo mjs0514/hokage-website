@@ -111,9 +111,33 @@ export default {
       }
     },
     methods: {
-    onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
+    onSubmit : function(e) {
+        e.preventDefault()
+        let join = () => { // 함수 정의
+          let input = {
+            id : this.form.id,
+            pw : this.form.password,
+            email : this.form.email,
+            region : this.form.selected
+          }
+          this.$http.post("/service/userInfo", input)
+          .then((response) => {
+            if(response.data == 'success'){
+              alert('회원가입이 성공적으로 완료되었습니다');
+              this.$router.push("/login");
+            }
+            else if (response.data == 'error'){
+              alert(this.form.selected);
+            }
+            else {
+              alert('이미 동일한 아이디가 존재합니다');
+            }
+          })
+          .catch((errors) => {
+            console.log(errors)
+          })
+        }
+        join() // 함수 호출
       }
     }
 }

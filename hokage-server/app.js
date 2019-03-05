@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var movies = require('./routes/movies');
 var login = require('./service/auth/login');
+var userInfo = require('./service/userInfo');
 
 var app = express(); // 익스프레스 객체 생성
 
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/service/movies', movies);
 app.use('/service/auth/login', login);
+app.use('/service/userinfo', userInfo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
