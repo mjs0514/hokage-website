@@ -24,9 +24,6 @@
 </template>
 
 <script>
-import router from "@/router"
-import axios from "axios" // 왜 글로벌하게 안될까?
-
 export default {
   name: "Login",
   data() {
@@ -38,20 +35,18 @@ export default {
   methods: {
     onSubmit: function(e) {
       e.preventDefault() // 현재 이벤트의 기본 동작을 중단, 내가 정의한 이벤트만 발생하게하기 위해 사용
-      //let id = "123" // var대신 let 쓰면 변수 재선언 불가능
-      //let password = "1234" // let 은 block-scope
       let login = () => { // 함수 정의
         let data = {
           id : this.id,
           password : this.password
         }
-        axios.post("/service/auth/login", data)
+        this.$http.post("/service/auth/login", data)
         .then((response) => {
           if(response.data === 'ok'){
             console.log("login ok test")
             console.log(response)
             console.log(response.data) //
-            router.push("/")
+            this.$router.push("/")
           } else if (response.data === 'no'){
             console.log("login no test")
           } else{
