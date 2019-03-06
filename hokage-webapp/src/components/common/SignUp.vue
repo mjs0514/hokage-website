@@ -128,7 +128,7 @@ export default {
               this.$router.push("/login");
             }
             else if (response.data == 'error'){
-              alert(this.form.selected);
+              alert('입력값 오류');
             }
             else {
               alert('이미 동일한 아이디가 존재합니다');

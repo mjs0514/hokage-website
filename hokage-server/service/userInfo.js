@@ -4,7 +4,7 @@ var env = require('../config/env.js');
 
 router.post('/', function(req, res, next) {
   // var insertQuery = `insert into UserInfo (id, pw, email, region) values ('${req.body.id}', '${req.body.pw}', '${req.body.email}', '${req.body.region}')`;
-  var insertQuery = 'insert into UserInfo (id, pw, email, region) values (?, ?, ?)';
+  var insertQuery = 'insert into UserInfo (id, pw, email, region) values (?, ?, ?, ?)';
   var selectQuery = `select * from UserInfo where id='${req.body[0]}'`;
   var check = null;
 
@@ -18,14 +18,13 @@ router.post('/', function(req, res, next) {
           else {
             check = 'error';
             res.send(check);
-            console.log(insertQuery)
+            console.log(error);
           }
         })
     }
     else if (data.length != 0) {
       check = 'exist';
       res.send(check);
-      console.log(req.body);
     }
   })
 
