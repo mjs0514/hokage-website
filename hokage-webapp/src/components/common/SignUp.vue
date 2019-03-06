@@ -114,12 +114,13 @@ export default {
     onSubmit : function(e) {
         e.preventDefault()
         let join = () => { // 함수 정의
-          let input = {
-            id : this.form.id,
-            pw : this.form.password,
-            email : this.form.email,
-            region : this.form.selected
-          }
+          // let input = {
+          //   id : this.form.id,
+          //   pw : this.form.password,
+          //   email : this.form.email,
+          //   region : this.form.selected
+          // }
+          let input = [this.form.id, this.form.password, this.form.email, this.form.selected];
           this.$http.post("/service/userInfo", input)
           .then((response) => {
             if(response.data == 'success'){
