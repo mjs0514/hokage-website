@@ -19,21 +19,24 @@ params : none
 query string : region, password
 */
 // 단점 : 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> 쿼리문으로 해결하고 싶었는데 못찾음
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
+  let query = 'select * from UserInfo where 1=1 ';
 
-  let query;
-  if(req.query.region === undefined) {
-    console.log('region undefined')
-    query = `select * from UserInfo`;
-  } else {
-    console.log(req.query.region);
-    query = `select * from UserInfo where region = "${req.query.region}"`;
+  if(req.query.email !== undefined) {
+    query = query.concat(`AND email="${req.query.email}" `)
   }
+
+  if(req.query.region !== undefined) {
+    query = query.concat(`AND region="${req.query.region}" `);
+  }
+
+  console.log(query);
 
   env.conn.query(query, function(error, data){
     console.log(data);
     console.log(error);
   });
+
   res.send('다건 사용자 조회 완료\n');
 });
 
@@ -43,11 +46,12 @@ url : /service/users/
 params : id
 query string : none
 */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
   env.conn.query(`select * from UserInfo where id="${req.params.id}"`, function(error, data){
     console.log(data);
     console.log(error);
   });
+
   res.send('단건 사용자 조회 완료\n');
 });
 
