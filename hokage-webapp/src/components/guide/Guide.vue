@@ -1,10 +1,10 @@
 <template>
   <div class="movies">
-    <h1>호카케 리스트</h1>
+    <h1>호카게 리스트</h1>
     <div v-for="movie in movies" class="movie">
       <img v-bind:src="movie.image" class="guide-image img-fluid img-thumbnail">
       <div>
-        <strong>{{movie.name}}</strong>        
+        <strong>{{movie.name}}</strong>
       </div>
     </div>
   </div>
@@ -27,5 +27,8 @@ export default {
 </script>
 
 <style>
-.guide-image {width:150px; height:150px;}
+.guide-image {
+  width:150px;
+  height:150px;
+}
 </style>

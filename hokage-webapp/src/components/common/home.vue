@@ -7,33 +7,15 @@
           src="@/assets/image.jpg"
           alt="Home image">
       </div>
-      <div class="first-input form-group">
-        <input
-         type="id" class="form-control"
-         placeholder="아이디를 입력하세요">
-        </input>
-      </div>
+
+      <b-form v-on:submit="onSubmit" class="first-input input-group">
+        <b-form-input type="text" v-model="id" placeholder="아이디를 입력하세요"></b-form-input>
+        <div class="input-group-append">
+          <b-button class="btn-warning" type="submit">검색</b-button>
+        </div>
+      </b-form>
     </div>
 
-<!-- <div class="second-container">
-  <span> 공지사항 </span>
-  <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    style="max-width: 20rem;"
-    class="mb-2"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-  <span> 인기글 </span>
-</div> -->
 
 <b-container class="second-container">
   <b-row class="row-0">
@@ -110,6 +92,7 @@
 export default {
   data() {
       return {
+        id: '',
         slide: 0,
         sliding: null
       }
@@ -120,6 +103,25 @@ export default {
       },
       onSlideEnd(slide) {
         this.sliding = false
+      },
+      onSubmit(e) {
+        let input = {
+          id : this.id
+        }
+        e.preventDefault();
+
+        // db검색후에 라우팅하는것보다 라우팅 후에 match.vue에서 db검색하는게 더 좋을듯
+        this.$router.push(`/match?id=${this.id}`);
+
+        // this.$http.post("/service/record/match", input)
+        // .then((response) => {
+        //   console.log(response);
+        //   // 1. 파라미터 방식의 문제점, 새로고침하면 데이터가 유지안됨, 방법을 찾을라면 할수있을듯
+        //   //this.$router.push({ name:'Match', params: {'data':response.data} });
+        //
+        //   // 2. 쿼리 방식
+        //   this.$router.push(`/match?id=${response.data[0].match_id}`);
+        // })
       }
     }
 }

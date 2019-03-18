@@ -7,7 +7,7 @@ import Notice from '@/components/news/Notice'
 import Event from '@/components/news/Event'
 import Update from '@/components/news/Update'
 import Guide from '@/components/guide/Guide'
-
+import Match from '@/components/record/Match'
 
 Vue.use(Router)
 
@@ -49,5 +49,11 @@ export default new Router({
       name: 'SignUp',
       component: SignUp
     },
+    {
+      name: 'Match',
+      path: '/match',
+      component: Match,
+      props: true // routing할때 param전달하기 위해 추가해야함
+    }
   ]
 })
