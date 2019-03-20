@@ -49,9 +49,11 @@ query string : none
 router.get('/:id', function(req, res) {
   env.conn.query(`select * from UserInfo where id="${req.params.id}"`, function(error, data){
     if (data.length == 0) {
+      //res.json({result:'noexist'});
       res.send('noexist');
     }
     else {
+      //res.json({result:'exist'});
       res.send('exist');
     }
   });
