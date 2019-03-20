@@ -48,11 +48,13 @@ query string : none
 */
 router.get('/:id', function(req, res) {
   env.conn.query(`select * from UserInfo where id="${req.params.id}"`, function(error, data){
-    console.log(data);
-    console.log(error);
+    if (data.length == 0) {
+      res.send('noexist');
+    }
+    else {
+      res.send('exist');
+    }
   });
-
-  res.send('단건 사용자 조회 완료\n');
 });
 
 module.exports = router;

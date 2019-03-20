@@ -114,24 +114,27 @@ export default {
     onSubmit : function(e) {
         e.preventDefault()
         let join = () => { // 함수 정의
-          // let input = {
-          //   id : this.form.id,
-          //   pw : this.form.password,
-          //   email : this.form.email,
-          //   region : this.form.selected
-          // }
-          let input = [this.form.id, this.form.password, this.form.email, this.form.selected];
-          this.$http.post("/service/userInfo", input)
+          let input = {
+            id : this.form.id,
+            pw : this.form.password,
+            email : this.form.email,
+            region : this.form.selected
+          }
+          this.$http.get(`/service/users/${input.id}`)
           .then((response) => {
-            if(response.data == 'success'){
-              alert('회원가입이 성공적으로 완료되었습니다');
-              this.$router.push("/login");
+            if(response.data == 'noexist'){
+              this.$http.post("/service/userInfo/", input)
+              .then((response) => {
+                if(response.data == 'success') {
+                  alert('회원가입이 성공적으로 되었습니다');
+                  this.$router.push("/login");
+                } else {
+                  alert('입력값 오류');
+                }
+              })
             }
-            else if (response.data == 'error'){
-              alert('입력값 오류');
-            }
-            else {
-              alert('이미 동일한 아이디가 존재합니다');
+            else if (response.data == 'exist'){
+              alert('이미 해당 아이디가 사용중입니다');
             }
           })
           .catch((errors) => {
