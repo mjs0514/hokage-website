@@ -4,29 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-/* service */
-
-var movies = require('./routes/movies');
-var login = require('./service/auth/login');
-var userInfo = require('./service/userInfo');
-var match = require('./service/record/match');
-var users = require('./service/users');
-
+/* router 설정하기 전에 설정되어야 하는 설정들 */
 var app = express(); // 익스프레스 객체 생성
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/service/movies', movies);
-app.use('/service/auth/login', login);
-app.use('/service/userinfo', userInfo);
-app.use('/service/record/match', match);
-app.use('/service/users', users);
 
-
+/* service */
+app.use('/service', require('./service'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,7 +29,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    message: err.message,
+    error: err
+  });
 });
 
 app.use(require('connect-history-api-fallback')());

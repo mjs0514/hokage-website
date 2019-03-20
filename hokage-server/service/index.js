@@ -1,8 +1,14 @@
 'use strict';
 
-module.exports.set = function(app){
-  app.use('/service/users', require('./users'));
-  app.use('/service/userinfo', require('./userInfo'));
-  app.use('/service/record/match', require('./record/match'));
-  app.use('/service/auth/login', require('./auth/login'));
-}
+var express =require('express');
+var router = express.Router();
+
+/* directories */
+router.use('/auth', require('./auth'));
+router.use('/record', require('./record'));
+
+/* .js */
+router.use('/users', require('./users'));
+router.use('/userinfo', require('./userInfo'));
+
+module.exports = router;
