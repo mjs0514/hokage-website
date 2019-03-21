@@ -33,7 +33,8 @@
       </b-col>
     </b-row>
 
-    <b-row v-for="(match, index) in data" v-bind:class="{'tableColor' : isWin(index)}" class="match-row match-match">
+    <!-- TODO v-for 에는 반드시 :key 값을 줘야함! index말고 고유한 값으로 대체할 것-->
+    <b-row v-for="(match, index) in data" :key="index" v-bind:class="{'tableColor' : isWin(index)}" class="match-row match-match">
       <b-col>
         {{index}} 경기
       </b-col>
@@ -50,13 +51,14 @@
         {{match.result}} <!--경기 결과를 보고 이기면 파란색, 지면 붉은색으로 칠해져야함 -->
       </b-col>
     </b-row>
-    
+
   </b-container>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'Match',
   created () { // created와 computed의 실행 타이밍은?? 차이는?
     console.log(this.$route.query.id);
     this.id = this.$route.query.id;

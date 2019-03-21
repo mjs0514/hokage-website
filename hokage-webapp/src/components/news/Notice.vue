@@ -18,6 +18,7 @@
 </template>
 <script>
 export default {
+  name: 'Notice',
   data : function(){
     return {
       name : 's',

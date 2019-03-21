@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'Guide',
   created () {
     this.$http.get('/service/movies')
     .then((response) => {

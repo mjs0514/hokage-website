@@ -49,6 +49,7 @@
 
 <script>
 export default {
+  name: 'SignUp',
   computed: {
     idState() {
         return (this.form.id.length > 3)&&(this.form.id.length < 21) ? true : false
