@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import EventBus from '@/utils/event-bus'
 export default {
   name: "Login",
   data() {
@@ -44,6 +45,8 @@ export default {
         .then((response) => {
           if(response.data == 'verified'){
             console.log(response);
+            sessionStorage.setItem('logout', false);
+            EventBus.$emit("login-event");
             this.$router.push("/");
           } else if (response.data == 'incorrectPw'){
             console.log(response);

@@ -45,7 +45,7 @@
 
     </b-navbar-nav>
 
-    <b-button variant="outline-success" to="/login">로그인</b-button>
+    <b-button variant="outline-success" @click="toggle">{{ logout ? '로그인' : '로그아웃' }}</b-button>
 
     </b-collapse>
   </b-navbar>
@@ -54,8 +54,38 @@
 </template>
 
 <script>
+import EventBus from '@/utils/event-bus'
 export default {
-  name: 'TopMenu'
+  name: 'TopMenu',
+  data() {
+    return {
+      logout: JSON.parse(sessionStorage.getItem('logout'))
+    }
+  },
+  beforeCreate: function(){
+    let checked = sessionStorage.getItem('logout');
+    if (checked == null) {
+      sessionStorage.setItem('logout', true)
+      this.logout = true;
+    }
+  },
+  created: function() {
+    EventBus.$on("login-event", logined => {
+      this.logout = false;
+    });
+  },
+  methods: {
+    toggle() {
+      if (this.logout == true) {
+        this.$router.push("/login");
+      }
+      else {
+        this.logout = !this.logout;
+        sessionStorage.setItem('logout', this.logout);
+        alert('로그아웃');
+      }
+    }
+  }
 }
 </script>
 
