@@ -20,7 +20,7 @@ query string : region, password
 */
 // 단점 : 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> 쿼리문으로 해결하고 싶었는데 못찾음
 router.get('/', function(req, res) {
-  let query = 'select * from UserInfo where 1=1 ';
+  let query = 'select * from USER_INFO where 1=1 ';
 
   if(req.query.email !== undefined) {
     query = query.concat(`AND email="${req.query.email}" `)
@@ -47,16 +47,33 @@ params : id
 query string : none
 */
 router.get('/:id', function(req, res) {
-  env.conn.query(`select * from UserInfo where id="${req.params.id}"`, function(error, data){
+  env.conn.query(`select * from USER_INFO where id="${req.params.id}"`, function(error, data){
     if (data.length == 0) {
-      //res.json({result:'noexist'});
       res.send('noexist');
     }
     else {
-      //res.json({result:'exist'});
-      res.send('exist');
+      res.send(data[0]);
     }
   });
+});
+
+/* 사용자 정보 등록
+method : POST
+url : /service/users/
+params : id, pw, email, region
+query string : none
+*/
+router.post('/', function(req, res, next) {
+  var insertQuery = `insert into USER_INFO (id, pw, email, region) values ('${req.body.id}', '${req.body.pw}', '${req.body.email}', '${req.body.region}')`;
+
+  env.conn.query(insertQuery, req.body, function(error, data){
+      if (!error) {
+        res.send('success');
+      } else {
+        res.send('error');
+        console.log(error);
+      }
+  })
 });
 
 module.exports = router;

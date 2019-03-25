@@ -124,7 +124,7 @@ export default {
           this.$http.get(`/service/users/${input.id}`)
           .then((response) => {
             if(response.data == 'noexist'){
-              this.$http.post("/service/userInfo/", input)
+              this.$http.post("/service/users/", input)
               .then((response) => {
                 if(response.data == 'success') {
                   alert('회원가입이 성공적으로 되었습니다');
@@ -134,7 +134,7 @@ export default {
                 }
               })
             }
-            else if (response.data == 'exist'){
+            else {
               alert('이미 해당 아이디가 사용중입니다');
             }
           })

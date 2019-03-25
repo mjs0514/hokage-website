@@ -9,6 +9,5 @@ router.use('/record', require('./record'));
 
 /* .js */
 router.use('/users', require('./users'));
-router.use('/userinfo', require('./userInfo'));
 
 module.exports = router;

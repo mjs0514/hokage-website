@@ -37,23 +37,20 @@ export default {
     onSubmit: function(e) {
       e.preventDefault() // 현재 이벤트의 기본 동작을 중단, 내가 정의한 이벤트만 발생하게하기 위해 사용
       let login = () => { // 함수 정의
-        let input = {
-          id : this.id,
-          pw : this.pw
-        }
-        this.$http.post("/service/auth/login", input)
+        this.$http.get(`/service/users/${this.id}`)
         .then((response) => {
-          if(response.data == 'verified'){
-            console.log(response);
-            sessionStorage.setItem('logout', false);
-            EventBus.$emit("login-event");
-            this.$router.push("/");
-          } else if (response.data == 'incorrectPw'){
-            console.log(response);
-            alert('비밀번호가 틀렸습니다');
-          } else {
-            console.log(response);
-            alert('해당 아이디가 존재하지 않습니다');
+          if(response.data == 'noexist'){
+            alert('해당 아이디가 존재하지 않습니다')
+          }
+          else {
+            if (response.data.pw == this.pw) {
+              sessionStorage.setItem('logout', false);
+              EventBus.$emit("login-event");
+              this.$router.push("/");
+            }
+            else {
+              alert('비밀번호가 틀렸습니다')
+            }
           }
         })
         .catch((errors) => {
