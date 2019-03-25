@@ -18,7 +18,7 @@
       <b-nav-item class="dropdown">가이드
         <div class="dropdown-menu">
           <b-link to="/guide">게임소개</b-link>
-          <b-link to="/">아이템정보</b-link>
+          <b-link v-on:click="isLogin('guide')" to="/">아이템정보</b-link>
           <b-link to="/">맵정보</b-link>
         </div>
       </b-nav-item>
@@ -83,6 +83,14 @@ export default {
         this.logout = !this.logout;
         sessionStorage.setItem('logout', this.logout);
         alert('로그아웃');
+      }
+    },
+    isLogin(input) {
+      if (this.logout == true) {
+        this.$router.push("/login");
+      }
+      else{
+        this.$router.push("/" + input);
       }
     }
   }
