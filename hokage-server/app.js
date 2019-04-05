@@ -8,7 +8,9 @@ var logger = require('morgan');
 var app = express(); // 익스프레스 객체 생성
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

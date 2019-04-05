@@ -7,8 +7,8 @@
 
 'use strict'
 module.exports = {
-  HOST : '',
-  PORT : ,
-  API_HOST : '',
-  API_PORT :
+  HOST: '',
+  PORT: ,
+  API_HOST: '',
+  API_PORT:
 }

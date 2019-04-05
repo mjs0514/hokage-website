@@ -12,9 +12,8 @@ import Match from '@/components/record/Match'
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
-  routes: [
-    {
+  mode: 'history',
+  routes: [{
       path: '/',
       name: 'Home',
       component: Home

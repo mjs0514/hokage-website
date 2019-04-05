@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <TopMenu/>
-    <router-view id="content"></router-view>
-  </div>
+<div id="app">
+  <TopMenu />
+  <router-view id="content"></router-view>
+</div>
 </template>
 
 <script>
@@ -16,9 +16,19 @@ export default {
 </script>
 
 <style>
-#content {margin-top: 56px;} /* 모든 바디 컨텐츠는 탑 메뉴높이만큼 마진을 가짐 */
-@media all and (min-width: 960px)
-{ /* 모든 바디 컨텐츠는 특정 크기 이상으로 커지지 않음*/
-  #content { width:960px; position:relative; left:50%; transform:translateX(-50%);}
+#content {
+  margin-top: 56px;
+}
+
+/* 모든 바디 컨텐츠는 탑 메뉴높이만큼 마진을 가짐 */
+@media all and (min-width: 960px) {
+
+  /* 모든 바디 컨텐츠는 특정 크기 이상으로 커지지 않음*/
+  #content {
+    width: 960px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 </style>

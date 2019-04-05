@@ -22,17 +22,17 @@ query string : region, password
 router.get('/', function(req, res) {
   let query = 'select * from USER_INFO where 1=1 ';
 
-  if(req.query.email !== undefined) {
+  if (req.query.email !== undefined) {
     query = query.concat(`AND email="${req.query.email}" `)
   }
 
-  if(req.query.region !== undefined) {
+  if (req.query.region !== undefined) {
     query = query.concat(`AND region="${req.query.region}" `);
   }
 
   console.log(query);
 
-  env.conn.query(query, function(error, data){
+  env.conn.query(query, function(error, data) {
     console.log(data);
     console.log(error);
   });
@@ -47,11 +47,10 @@ params : id
 query string : none
 */
 router.get('/:id', function(req, res) {
-  env.conn.query(`select * from USER_INFO where id="${req.params.id}"`, function(error, data){
+  env.conn.query(`select * from USER_INFO where id="${req.params.id}"`, function(error, data) {
     if (data.length == 0) {
       res.send('noexist');
-    }
-    else {
+    } else {
       res.send(data[0]);
     }
   });
@@ -66,13 +65,13 @@ query string : none
 router.post('/', function(req, res, next) {
   var insertQuery = `insert into USER_INFO (id, pw, email, region) values ('${req.body.id}', '${req.body.pw}', '${req.body.email}', '${req.body.region}')`;
 
-  env.conn.query(insertQuery, req.body, function(error, data){
-      if (!error) {
-        res.send('success');
-      } else {
-        res.send('error');
-        console.log(error);
-      }
+  env.conn.query(insertQuery, req.body, function(error, data) {
+    if (!error) {
+      res.send('success');
+    } else {
+      res.send('error');
+      console.log(error);
+    }
   })
 });
 

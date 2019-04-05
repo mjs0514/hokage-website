@@ -13,12 +13,12 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: { // express와 연동을 위해 새롭게 추가한 부분, vue페이지에서 /service로 요청이 들어오면 3000/service을 프록시로 사용함
       '/service': {
-          target: `http://${env.API_HOST}:${env.API_PORT}/service`,
-          changeOrigin: true,
-          pathRewrite: {
-            '^/service': ''
-          }
+        target: `http://${env.API_HOST}:${env.API_PORT}/service`,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/service': ''
         }
+      }
     },
 
     // Various Dev Server settings

@@ -1,5 +1,5 @@
 <template>
-  <div>
+<div>
 
   <b-container class="match-container" fluid>
     <b-row class="match-row">
@@ -48,59 +48,60 @@
         {{match.item}} <!-- 아이템 리스트를 보고 이미지를 가져와야함 -->
       </b-col>
       <b-col>
-        {{match.result}} <!--경기 결과를 보고 이기면 파란색, 지면 붉은색으로 칠해져야함 -->
+        {{match.result}}
+        <!--경기 결과를 보고 이기면 파란색, 지면 붉은색으로 칠해져야함 -->
       </b-col>
     </b-row>
 
   </b-container>
-  </div>
+</div>
 </template>
 
 <script>
 export default {
   name: 'Match',
-  created () { // created와 computed의 실행 타이밍은?? 차이는?
+  created() { // created와 computed의 실행 타이밍은?? 차이는?
     console.log(this.$route.query.id);
     this.id = this.$route.query.id;
     let input = {
-      id : this.id
+      id: this.id
     }
     this.$http.post("/service/record/match", input)
-    .then((response) => {
-      this.data = response.data;
-      console.log(this.data[0]);
-      console.log(this.data[1]);
-    })
+      .then((response) => {
+        this.data = response.data;
+        console.log(this.data[0]);
+        console.log(this.data[1]);
+      })
   },
-  methods : {
-    isWin : function(index) {  // v-bind를 통해 특정 값일때 클래스 추가 할수 있음
-      if(this.data[index].result == 'win') {
+  methods: {
+    isWin: function(index) { // v-bind를 통해 특정 값일때 클래스 추가 할수 있음
+      if (this.data[index].result == 'win') {
         return true;
       } else {
         return false;
       }
     }
   },
-  data () {
+  data() {
     return {
-       id: '',
-       data: [
-         { user_id :'',
-           result : '',
-           isColor: false }
-       ],
-       lastRecord: {
-         kda : {
-           k: 0,
-           d: 0,
-           a: 0,
-         },
-         results: {
-           w: 0,
-           d: 0,
-           l: 0,
-         }
-       }
+      id: '',
+      data: [{
+        user_id: '',
+        result: '',
+        isColor: false
+      }],
+      lastRecord: {
+        kda: {
+          k: 0,
+          d: 0,
+          a: 0,
+        },
+        results: {
+          w: 0,
+          d: 0,
+          l: 0,
+        }
+      }
 
     }
   }
@@ -108,27 +109,30 @@ export default {
 </script>
 
 <style>
-
 .match-container .match-row {
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 .match-rank {
-  min-width:400px;
+  min-width: 400px;
 }
+
 .match-ninja {
-  height:100px;
+  height: 100px;
 }
+
 .match-match {
-  height:130px;
-  background-color : rgb(240, 161, 161);
+  height: 130px;
+  background-color: rgb(240, 161, 161);
 }
+
 .match-rank div {
-  border-color:red;
+  border-color: red;
   border-style: solid;
   border-width: 2px;
 }
+
 .tableColor {
-  background-color : rgb(13, 162, 245);
+  background-color: rgb(13, 162, 245);
 }
 </style>
