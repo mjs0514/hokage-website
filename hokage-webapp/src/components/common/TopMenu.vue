@@ -70,7 +70,7 @@ export default {
     }
   },
   created: function() {
-    EventBus.$on("login-event", logined => {
+    EventBus.$on("login-event", () => {
       this.logout = false;
     });
   },
