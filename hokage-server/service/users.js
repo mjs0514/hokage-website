@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var env = require('../config/env.js');
 
-
 /*
 단건은 pk를 필수적으로 입력받도록 하는 서비스여야 한다. 즉 path parameter로 입력을 처리하게 하면 됨
 다건은 전체인 경우와 일부인 경우로 나뉘는데 이 때 일부를 검색하는 것은 옵션이기 때문에 query string으로 처리
@@ -62,17 +61,56 @@ url : /service/users/
 params : id, pw, email, region
 query string : none
 */
-router.post('/', function(req, res, next) {
-  var insertQuery = `insert into USER_INFO (id, pw, email, region) values ('${req.body.id}', '${req.body.pw}', '${req.body.email}', '${req.body.region}')`;
+var bkfd2Password = require('pbkdf2-password');
 
-  env.conn.query(insertQuery, req.body, function(error, data) {
-    if (!error) {
-      res.send('success');
+router.use('/', function(req, res, next){
+  //회원가입 전처리
+  let hasher = bkfd2Password({
+    saltLength: 192,    // byte size
+    iterations: 100000,
+    keyLength: 192,     // byte size
+    digest: 'sha256'
+  });
+
+  let info = {
+    password: req.body.pw
+  }
+
+  // plain password -> hashed password(base64 encoding), length : 256
+  // salt(base64 encoding), length : 256
+  hasher(info, (hashError, pass, salt, hash) => {
+    if(!hashError) {
+      // console.log(salt.length);
+      req.hashedPassword = hash;
+      req.salt = salt;
+      next();
     } else {
-      res.send('error');
-      console.log(error);
+      res.json({
+        success: false,
+        message: 'hash creation failed',
+        error: hashError
+      });
     }
-  })
+  });
+});
+
+router.post('/', function(req, res, next) {
+  var insertQuery = `insert into USER_INFO (id, pw, email, region, salt) values('${req.body.id}', '${req.hashedPassword}', '${req.body.email}', '${req.body.region}', '${req.salt}')`;
+  env.conn.query(insertQuery, (mysqlError, data) => {
+    if (!mysqlError) {
+      res.json({
+        success: true,
+        message: 'User registration succeeded!',
+        data: data
+      });
+    } else {
+      res.json({
+        success: false,
+        message: 'User registration failed!',
+        error: mysqlError
+      });
+    }
+  });
 });
 
 module.exports = router;
