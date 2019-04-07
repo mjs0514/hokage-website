@@ -46,7 +46,7 @@ router.post('/login', function(req, res) {
     issuer: 'hokage.ga',
     expiresIn: '1h',
     subject: 'authToken',
-    audience: req.body.id
+    audience: req.body.id,
   };
 
   /* password hash variables */
@@ -54,7 +54,7 @@ router.post('/login', function(req, res) {
     saltLength: 192,
     iterations: 100000,
     keyLength: 192,
-    digest: 'sha256'
+    digest: 'sha256',
   });
 
   let query = `select pw, salt from USER_INFO where id="${req.body.id}"`;
@@ -69,21 +69,20 @@ router.post('/login', function(req, res) {
                 res.json({
                   success: true,
                   message: 'login success',
-                  authToken: token
+                  authToken: token,
                 });
               });
             } else {
               res.json({
                 success: false,
                 message: 'login fail : password incorrect',
-                authToken: 'none'
               });
             }
           } else {
-            res.json({
+            res.status(500).json({
               success: false,
               message: 'hash creation failed',
-              error: hashError
+              error: hashError,
             });
           }
         })
@@ -91,14 +90,12 @@ router.post('/login', function(req, res) {
         res.json({
           success: false,
           message: 'login fail : id incorrect',
-          authToken: 'none'
         });
       }
     } else {
-      res.json({
+      res.status(500).json({
         success: false,
-        message: error,
-        authToken: 'none'
+        error: error,
       });
     }
   });

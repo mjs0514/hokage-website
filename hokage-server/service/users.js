@@ -19,7 +19,7 @@ query string : region, password
 */
 // 단점 : 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> 쿼리문으로 해결하고 싶었는데 못찾음
 router.get('/', function(req, res) {
-  let query = 'select * from USER_INFO where 1=1 ';
+  let query = 'select id, email, region from USER_INFO where 1=1 ';
 
   if (req.query.email !== undefined) {
     query = query.concat(`AND email="${req.query.email}" `)
@@ -46,11 +46,26 @@ params : id
 query string : none
 */
 router.get('/:id', function(req, res) {
-  env.conn.query(`select * from USER_INFO where id="${req.params.id}"`, function(error, data) {
-    if (data.length == 0) {
-      res.send('noexist');
+  env.conn.query(`select id, email, region from USER_INFO where id="${req.params.id}"`, function(error, data) {
+    if(!error){
+      if (data.length == 0) {
+        res.json({
+          success: true,
+          message: 'no exist user',
+        })
+      } else {
+        res.json({
+          success: true,
+          message: 'exist user',
+          user: data[0],
+        });
+      }
     } else {
-      res.send(data[0]);
+      res.status(500).json({
+        success: false,
+        message: 'error occur',
+        error: error,
+      });
     }
   });
 });
@@ -69,11 +84,11 @@ router.use('/', function(req, res, next){
     saltLength: 192,    // byte size
     iterations: 100000,
     keyLength: 192,     // byte size
-    digest: 'sha256'
+    digest: 'sha256',
   });
 
   let info = {
-    password: req.body.pw
+    password: req.body.pw,
   }
 
   // plain password -> hashed password(base64 encoding), length : 256
@@ -85,10 +100,10 @@ router.use('/', function(req, res, next){
       req.salt = salt;
       next();
     } else {
-      res.json({
+      res.status(500).json({
         success: false,
         message: 'hash creation failed',
-        error: hashError
+        error: hashError,
       });
     }
   });
@@ -101,13 +116,13 @@ router.post('/', function(req, res, next) {
       res.json({
         success: true,
         message: 'User registration succeeded!',
-        data: data
+        user: data[0],
       });
     } else {
-      res.json({
+      res.status(500).json({
         success: false,
         message: 'User registration failed!',
-        error: mysqlError
+        error: mysqlError,
       });
     }
   });

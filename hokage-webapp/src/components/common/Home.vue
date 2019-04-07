@@ -1,6 +1,5 @@
 <template>
 <div>
-
   <div class="first-container">
     <div class="first-image">
       <img src="@/assets/image.jpg" alt="Home image">
@@ -13,7 +12,6 @@
       </div>
     </b-form>
   </div>
-
 
   <b-container class="second-container">
     <b-row class="row-0">
@@ -102,7 +100,6 @@ export default {
   }
 }
 </script>
-
 
 <style>
 .first-image img {

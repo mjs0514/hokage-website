@@ -14,10 +14,10 @@
 export default {
   name: 'Guide',
   created() {
-    this.$http.get('/service/movies')
-      .then((response) => {
-        this.movies = response.data
-      })
+    // this.$http.get('/service/movies')
+    //   .then((response) => {
+    //     this.movies = response.data
+    //   })
   },
   data() {
     return {

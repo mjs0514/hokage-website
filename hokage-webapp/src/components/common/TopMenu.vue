@@ -81,6 +81,7 @@ export default {
       } else {
         this.logout = !this.logout;
         sessionStorage.setItem('logout', this.logout);
+        sessionStorage.removeItem('authToken');
         alert('로그아웃');
       }
     },
@@ -108,7 +109,6 @@ export default {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   margin-top: 0px;
-
 }
 
 .dropdown {
@@ -121,7 +121,6 @@ export default {
   padding: 5px 10px;
   text-decoration: none;
   display: block;
-
 }
 
 .dropdown-menu a:hover {

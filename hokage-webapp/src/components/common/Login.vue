@@ -8,7 +8,6 @@
       <b-form-group>
         <b-form-input v-model="id" type="text" placeholder="아이디" required />
       </b-form-group>
-
       <b-form-group>
         <b-form-input v-model="pw" type="password" placeholder="비밀번호" required />
       </b-form-group>
@@ -18,11 +17,9 @@
         <b-link class="text-warning" to="/signup">회원가입</b-link>
       </div>
     </b-form>
-
   </b-card>
 </div>
 </template>
-
 <script>
 import EventBus from '@/utils/event-bus'
 export default {
@@ -30,38 +27,37 @@ export default {
   data() {
     return {
       id: '',
-      pw: ''
+      pw: '',
     }
   },
   methods: {
     onSubmit: function(e) {
       e.preventDefault() // 현재 이벤트의 기본 동작을 중단, 내가 정의한 이벤트만 발생하게하기 위해 사용
-      let login = () => { // 함수 정의
-        this.$http.get(`/service/users/${this.id}`)
-          .then((response) => {
-            if (response.data == 'noexist') {
-              alert('해당 아이디가 존재하지 않습니다')
-            } else {
-              if (response.data.pw == this.pw) {
-                sessionStorage.setItem('logout', false);
-                EventBus.$emit("login-event");
-                this.$router.push("/");
-              } else {
-                alert('비밀번호가 틀렸습니다')
-              }
-            }
-          })
-          .catch((errors) => {
-            console.log(errors)
-          })
+
+      let input = {
+        id: this.id,
+        pw: this.pw,
       }
-      login() // 함수 호출
+
+      this.$http.post('/service/auth/login', input)
+        .then((res) => {
+          if (res.data.success) {
+            sessionStorage.setItem('logout', false);
+            sessionStorage.setItem('authToken', res.data.authToken);
+            EventBus.$emit('login-event');
+            this.$router.push('/');
+          } else {
+            alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+        })
     }
   }
 }
 </script>
-
-
 <style>
 .login-container p {
   text-align: center;

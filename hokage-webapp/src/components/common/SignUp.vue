@@ -151,40 +151,40 @@ export default {
   },
   methods: {
     onSubmit: function(e) {
-      e.preventDefault()
-      let join = () => { // 함수 정의
-        let input = {
-          id: this.form.id,
-          pw: this.form.password,
-          email: this.form.email,
-          region: this.form.selected
-        }
-        this.$http.get(`/service/users/${input.id}`)
-          .then((response) => {
-            if (response.data == 'noexist') {
-              this.$http.post("/service/users/", input)
-                .then((response) => {
-                  if (response.data == 'success') {
-                    alert('회원가입이 성공적으로 되었습니다');
-                    this.$router.push("/login");
-                  } else {
-                    alert('입력값 오류');
-                  }
-                })
-            } else {
-              alert('이미 해당 아이디가 사용중입니다');
-            }
-          })
-          .catch((errors) => {
-            console.log(errors)
-          })
+      e.preventDefault();
+
+      let input = {
+        id: this.form.id,
+        pw: this.form.password,
+        email: this.form.email,
+        region: this.form.selected
       }
-      join() // 함수 호출
+
+      this.$http.get(`/service/users/${input.id}`)
+        .then((res) => {
+          let user = res.data.user;
+          if (!user) {
+            this.$http.post('/service/users', input)
+              .then((res) => {
+                if (res.data.success) {
+                  alert('회원가입이 성공적으로 되었습니다.');
+                  this.$router.push('/login');
+                } else {
+                  alert('입력 값 오류');
+                }
+              })
+          } else {
+            alert('이미 해당 아이디가 사용중입니다');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+        })
     }
   }
 }
 </script>
-
 
 <style>
 .signup-container p {
