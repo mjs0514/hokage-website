@@ -1,3 +1,4 @@
+'use strict'
 var express = require('express');
 var router = express.Router();
 var env = require('../config/env.js');
@@ -10,14 +11,12 @@ var env = require('../config/env.js');
 만약 파라미터로 구분하려면 if문이 추가될 것이고 이것을 없애기 위해 서비스를 분리하게 되면 url이 복잡해진다.
 */
 
-
 /* 다건 사용자 조회
-method : GET
-url : /service/users
-params : none
-query string : region, password
+method        : GET
+url           : /service/users
+query string  : region, password
+FIXME 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> ORM으로 해결할 수 있음
 */
-// 단점 : 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> 쿼리문으로 해결하고 싶었는데 못찾음
 router.get('/', function(req, res) {
   let query = 'select id, email, region from USER_INFO where 1=1 ';
 
@@ -40,14 +39,13 @@ router.get('/', function(req, res) {
 });
 
 /* 단건 사용자 조회
-method : GET
-url : /service/users/
-params : id
-query string : none
+method      : GET
+url         : /service/users/
+params      : id
 */
 router.get('/:id', function(req, res) {
   env.conn.query(`select id, email, region from USER_INFO where id="${req.params.id}"`, function(error, data) {
-    if(!error){
+    if (!error) {
       if (data.length == 0) {
         res.json({
           success: true,
@@ -71,61 +69,37 @@ router.get('/:id', function(req, res) {
 });
 
 /* 사용자 정보 등록
-method : POST
-url : /service/users/
-params : id, pw, email, region
-query string : none
+method    : POST
+url       : /service/users/
+req.body  : id, pw, email, region
 */
-var bkfd2Password = require('pbkdf2-password');
 
-router.use('/', function(req, res, next){
+var PbkdfUtil = require('../utils/pbkdf');
+var QueryUtil = require('../utils/query');
+
+router.use('/', function(req, res, next) {
   //회원가입 전처리
-  let hasher = bkfd2Password({
-    saltLength: 192,    // byte size
-    iterations: 100000,
-    keyLength: 192,     // byte size
-    digest: 'sha256',
-  });
-
-  let info = {
-    password: req.body.pw,
-  }
-
-  // plain password -> hashed password(base64 encoding), length : 256
-  // salt(base64 encoding), length : 256
-  hasher(info, (hashError, pass, salt, hash) => {
-    if(!hashError) {
-      // console.log(salt.length);
-      req.hashedPassword = hash;
-      req.salt = salt;
-      next();
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'hash creation failed',
-        error: hashError,
-      });
-    }
-  });
+  //FIXME 입력 파라미터 필수적으로 입력했는지 검사
+  next();
 });
 
 router.post('/', function(req, res, next) {
-  var insertQuery = `insert into USER_INFO (id, pw, email, region, salt) values('${req.body.id}', '${req.hashedPassword}', '${req.body.email}', '${req.body.region}', '${req.salt}')`;
-  env.conn.query(insertQuery, (mysqlError, data) => {
-    if (!mysqlError) {
+  var registrationFail = 'User Registration Failed';
+
+  PbkdfUtil.hash(req.body.pw)
+    .then((data) => {
+      return QueryUtil.query(QueryUtil.insertUser(req.body.id, data.hash, req.body.email, req.body.region, data.salt), null, registrationFail);
+    })
+    .then((data) => {
       res.json({
         success: true,
-        message: 'User registration succeeded!',
+        message: 'User Registration Succeeded',
         user: data[0],
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'User registration failed!',
-        error: mysqlError,
-      });
-    }
-  });
+      })
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 module.exports = router;
