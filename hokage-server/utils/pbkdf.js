@@ -23,12 +23,10 @@ class PbkdfUtil {
             hash,
             salt
           });
-        else
-          reject({
-            success: false,
-            message: messages.hashError,
-            error: error
-          });
+        else {
+          error.message = messages.hashError;
+          reject(error);
+        }
       })
     });
   }
@@ -43,15 +41,13 @@ class PbkdfUtil {
           if (hash === dbPw) resolve();
           else
             reject({
-              success: false,
+              success: true,
               message: messages.invalidPw,
             });
-        } else
-          reject({
-            success: false,
-            message: messages.hashError,
-            error: error
-          });
+        } else {
+          error.message = messages.hashError;
+          reject(error);
+        }
       })
     })
   }

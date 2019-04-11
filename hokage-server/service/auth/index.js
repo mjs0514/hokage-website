@@ -32,7 +32,7 @@ let QueryUtil = require('../../utils/query');
 let PbkdfUtil = require('../../utils/pbkdf');
 let TokenUtil = require('../../utils/token');
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
   QueryUtil.lookupUserPWandSalt(req.body.id)
     .then((row) => {
       return PbkdfUtil.verifyHash(req.body.pw, row[0].salt, row[0].pw);
@@ -47,10 +47,7 @@ router.post('/login', function(req, res) {
         authToken: token,
       });
     })
-    .catch((error) => {
-      if (error.error) res.status(500);
-      res.json(error);
-    })
+    .catch(next);
 });
 
 module.exports = router;

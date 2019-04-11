@@ -17,7 +17,7 @@ method        : GET
 url           : /service/users
 query string  : region, password
 */
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
   QueryUtil.lookupUserInfo(req.query.email, req.query.region)
     .then((row) => {
       res.json({
@@ -26,10 +26,7 @@ router.get('/', function(req, res) {
         user: row,
       })
     })
-    .catch((error) => {
-      if (error.error) res.status(500);
-      res.json(error);
-    });
+    .catch(next);
 });
 
 /* 단건 사용자 조회
@@ -37,7 +34,7 @@ method      : GET
 url         : /service/users/
 params      : id
 */
-router.get('/:id', function(req, res) {
+router.get('/:id', function(req, res, next) {
   QueryUtil.lookupUser(req.params.id)
     .then((row) => {
       res.json({
@@ -46,10 +43,7 @@ router.get('/:id', function(req, res) {
         user: row[0],
       });
     })
-    .catch((error) => {
-      if (error.error) res.status(500);
-      res.json(error);
-    });
+    .catch(next);
 });
 
 /* 사용자 정보 등록
@@ -78,10 +72,7 @@ router.post('/', function(req, res, next) {
         user: row[0],
       })
     })
-    .catch((error) => {
-      if (error.error) res.status(500);
-      res.json(error);
-    });
+    .catch(next);
 });
 
 module.exports = router;

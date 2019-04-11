@@ -17,18 +17,16 @@ let option = { // registered claim
 
 class TokenUtil {
 
-  static generateAuthToken(userId){
+  static generateAuthToken(userId) {
     option.audience = userId;
     return new Promise((resolve, reject) => {
       jwt.sign(payload, env.secret, option, (error, token) => {
-        if(!error)
+        if (!error)
           resolve(token);
-        else
-          reject({
-            success: false,
-            message: messages.generateTokenError,
-            error: error,
-          });
+        else {
+          error.message = messages.generateTokenError;
+          reject(error);
+        }
       });
     });
   }

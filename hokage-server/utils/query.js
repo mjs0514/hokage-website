@@ -25,11 +25,11 @@ class QueryUtil {
   static lookupUserInfo(userEmail, userRegion) {
     let qs = `select id, email, region from USER_INFO where 1=1 `;
 
-    if(userEmail !== undefined) {
+    if (userEmail !== undefined) {
       qs = qs.concat(`AND email="${userEmail}" `);
     }
 
-    if(userRegion !== undefined) {
+    if (userRegion !== undefined) {
       qs = qs.concat(`AND region="${userRegion}" `);
     }
 
@@ -55,12 +55,10 @@ function query(queryString, dataNullMessage, queryFailMessage) {
             success: true,
             message: dataNullMessage,
           });
-      } else
-        reject({
-          success: false,
-          message: queryFailMessage,
-          error: error,
-        });
+      } else {
+        error.message = queryFailMessage;
+        reject(error);
+      }
     });
   });
 }
