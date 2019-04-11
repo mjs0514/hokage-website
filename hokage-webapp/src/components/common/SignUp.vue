@@ -162,25 +162,24 @@ export default {
 
       this.$http.get(`/service/users/${input.id}`)
         .then((res) => {
-          let user = res.data.user;
-          if (!user) {
-            this.$http.post('/service/users', input)
-              .then((res) => {
-                if (res.data.success) {
-                  alert('회원가입이 성공적으로 되었습니다.');
-                  this.$router.push('/login');
-                } else {
-                  alert('입력 값 오류');
-                }
-              })
-          } else {
+          if (res.data.user) {
             alert('이미 해당 아이디가 사용중입니다');
+            throw new Error('Already User Id Exist');
+          }
+          return this.$http.post('/service/users', input);
+        })
+        .then((res) => {
+          if (res.data.success) {
+            alert('회원가입이 성공적으로 되었습니다.');
+            this.$router.push('/login');
+          } else {
+            alert('입력 값 오류');
           }
         })
         .catch((error) => {
           console.log(error);
           console.log(error.response);
-        })
+        });
     }
   }
 }
