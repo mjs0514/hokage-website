@@ -11,8 +11,9 @@ ex) GET /service/auth/login
 */
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let messages = require('../../config/messages');
 
 /* 로그인 서비스
 method : POST
@@ -21,31 +22,34 @@ req.body : id, pw
 */
 
 router.use('/login', function(req, res, next) {
-  console.log('login service 전처리 미들웨어');
+  //console.log('login service 전처리 미들웨어');
   next();
 });
 
 //TODO express router 예외처리도 생각해서 적용하기
 
-var QueryUtil = require('../../utils/query');
-var PbkdfUtil = require('../../utils/pbkdf');
-var TokenUtil = require('../../utils/token');
+let QueryUtil = require('../../utils/query');
+let PbkdfUtil = require('../../utils/pbkdf');
+let TokenUtil = require('../../utils/token');
 
 router.post('/login', function(req, res) {
-  var msg = 'login fail : id incorrect';
-  QueryUtil.query(QueryUtil.lookupUserPWandSalt(req.body.id), msg)
+  QueryUtil.lookupUserPWandSalt(req.body.id)
     .then((row) => {
       return PbkdfUtil.verifyHash(req.body.pw, row[0].salt, row[0].pw);
     })
     .then(() => {
       return TokenUtil.generateAuthToken(req.body.id)
     })
-    .then((data) => {
-      res.json(data);
+    .then((token) => {
+      res.json({
+        success: true,
+        message: messages.loginSuccess,
+        authToken: token,
+      });
     })
     .catch((error) => {
-      if (error.error) res.status(500).json(error);
-      else res.json(error);
+      if (error.error) res.status(500);
+      res.json(error);
     })
 });
 

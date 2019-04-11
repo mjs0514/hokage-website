@@ -1,4 +1,5 @@
 'use strict';
+let messages = require('../config/messages');
 let bkfd2Password = require('pbkdf2-password');
 
 /* password hash variables */
@@ -9,15 +10,10 @@ let hasher = bkfd2Password({
   digest: 'sha256',
 });
 
-//FIXME 추후에 메세제 관련 js 파일을 만들어서 메세지 모두 한파일에 모으기
-let resMessage = {
-  hashError: 'hash creation failed',
-};
-
 class PbkdfUtil {
   // plain password -> hashed password(base64 encoding), length : 256
   // salt(base64 encoding), length : 256
-  static hash(userPw) {
+  static digestHash(userPw) {
     return new Promise((resolve, reject) => {
       hasher({
         password: userPw,
@@ -30,7 +26,7 @@ class PbkdfUtil {
         else
           reject({
             success: false,
-            message: resMessage.hashError,
+            message: messages.hashError,
             error: error
           });
       })
@@ -48,12 +44,12 @@ class PbkdfUtil {
           else
             reject({
               success: false,
-              message: 'Login Fail : Password Incorrect',
+              message: messages.invalidPw,
             });
         } else
           reject({
             success: false,
-            message: resMessage.hashError,
+            message: messages.hashError,
             error: error
           });
       })

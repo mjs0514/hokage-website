@@ -1,6 +1,7 @@
 'use strict'
-var env = require('../config/env.js');
-var jwt = require('jsonwebtoken');
+let env = require('../config/env.js');
+let jwt = require('jsonwebtoken');
+let messages = require('../config/messages');
 
 /* authToken variables */
 let payload = { // public, private claim
@@ -21,15 +22,11 @@ class TokenUtil {
     return new Promise((resolve, reject) => {
       jwt.sign(payload, env.secret, option, (error, token) => {
         if(!error)
-          resolve({
-            success: true,
-            message: 'Login Success',
-            authToken: token,
-          });
+          resolve(token);
         else
           reject({
             success: false,
-            message: 'Fail Generate Auth Token',
+            message: messages.generateTokenError,
             error: error,
           });
       });
