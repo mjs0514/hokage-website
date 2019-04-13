@@ -15,10 +15,10 @@ let QueryUtil = require('../utils/query');
 /* 다건 사용자 조회
 method        : GET
 url           : /service/users
-query string  : region, password
+query string  : region, password, lengthCheck
 */
 router.get('/', function(req, res, next) {
-  QueryUtil.lookupUserInfo(req.query.email, req.query.region)
+  QueryUtil.lookupUserInfo(req.query.email, req.query.region, req.query.lengthCheck)
     .then((row) => {
       res.json({
         success: true,
@@ -33,9 +33,10 @@ router.get('/', function(req, res, next) {
 method      : GET
 url         : /service/users/
 params      : id
+query string: lengthCheck(default = false)
 */
 router.get('/:id', function(req, res, next) {
-  QueryUtil.lookupUser(req.params.id)
+  QueryUtil.lookupUser(req.params.id, req.query.lengthCheck)
     .then((row) => {
       res.json({
         success: true,
@@ -67,7 +68,6 @@ router.post('/', function(req, res, next) {
     })
     .then((row) => {
       res.json({
-        success: true,
         message: messages.registrationSuccess,
         user: row[0],
       })

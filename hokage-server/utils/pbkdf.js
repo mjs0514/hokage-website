@@ -41,7 +41,7 @@ class PbkdfUtil {
           if (hash === dbPw) resolve();
           else
             reject({
-              success: true,
+              success: false,
               message: messages.invalidPw,
             });
         } else {

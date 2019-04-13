@@ -41,7 +41,7 @@ export default {
 
       this.$http.post('/service/auth/login', input)
         .then((res) => {
-          if (res.data.authToken) {
+          if (res.data.success) {
             sessionStorage.setItem('logout', false);
             sessionStorage.setItem('authToken', res.data.authToken);
             EventBus.$emit('login-event');

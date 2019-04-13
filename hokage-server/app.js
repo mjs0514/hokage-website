@@ -2,12 +2,14 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var boolParser = require('express-query-boolean');
 var logger = require('morgan');
 
 /* router 설정하기 전에 설정되어야 하는 설정들 */
 var app = express(); // 익스프레스 객체 생성
 app.use(logger('dev'));
 app.use(express.json());
+app.use(boolParser());
 app.use(express.urlencoded({
   extended: false
 }));
@@ -29,20 +31,17 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  if(err.success) {
+  if(err.stack){
+    console.log(err.stack);
+    // render the error page
+    res.status(err.status || 500);
+    res.json({
+      message: err.message,
+      error: err,
+    });
+  } else {
     res.json(err);
-    return;
   }
-
-  console.log(err.stack);
-
-  // render the error page
-  res.status(err.status || 500);
-  res.json({
-    success: false,
-    message: err.message,
-    error: err
-  });
 });
 
 app.use(require('connect-history-api-fallback')());

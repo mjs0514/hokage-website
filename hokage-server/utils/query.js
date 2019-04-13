@@ -8,21 +8,22 @@ class QueryUtil {
 
   static lookupUserPWandSalt(userId) {
     let qs = `select pw, salt from USER_INFO where id="${userId}"`;
-    return query(qs, messages.invalidId, messages.invalidSelectQuery);
+    return query(qs, messages.invalidQuery, true, messages.invalidId);
   }
 
   static insertUser(userId, userPw, userEmail, userRegion, userSalt) {
     let qs = `insert into USER_INFO (id, pw, email, region, salt) values('${userId}', '${userPw}', '${userEmail}', '${userRegion}', '${userSalt}')`;
-    return query(qs, null, messages.registrationFail);
+    return query(qs, messages.registrationFail);
   }
 
-  static lookupUser(userId) {
+  //lengthCheck - true : data의 길이를 check해서 0이면 reject, 1이상이면 resolve
+  static lookupUser(userId, lengthCheck) {
     let qs = `select id, email, region from USER_INFO where id="${userId}"`;
-    return query(qs, messages.notFoundUser, messages.invalidSelectQuery);
+    return query(qs, messages.invalidQuery, lengthCheck, messages.notFoundUser);
   }
 
   //FIXME 쿼리스트링 파라미터가 늘어나면 날 수록 if문이 많아짐 -> ORM으로 해결할 수 있음
-  static lookupUserInfo(userEmail, userRegion) {
+  static lookupUserInfo(userEmail, userRegion, lengthCheck) {
     let qs = `select id, email, region from USER_INFO where 1=1 `;
 
     if (userEmail !== undefined) {
@@ -33,7 +34,7 @@ class QueryUtil {
       qs = qs.concat(`AND region="${userRegion}" `);
     }
 
-    return query(qs, messages.notFoundUser, messages.invalidSelectQuery);
+    return query(qs, messages.invalidQuery, lengthCheck, messages.notFoundUser);
   }
 }
 
@@ -42,19 +43,17 @@ class QueryUtil {
 private 메소드처럼 사용하기 위해 class 외부로 이동
 client 쪽에서는 static 메소드만 호출할 수 있도록 제공하며, 필요하다면 static 메소드로 이동해도 됨
 */
-function query(queryString, dataNullMessage, queryFailMessage) {
+function query(queryString, queryFailMessage, lengthCheck, dataNullMessage) {
   return new Promise((resolve, reject) => {
     env.conn.query(queryString, (error, data) => {
       if (!error) {
-        if (!Array.isArray(data) && data) //object
-          resolve(data);
-        else if (Array.isArray(data) && data.length) //array
-          resolve(data);
-        else
+        if (lengthCheck && data.length === 0) {
           reject({
-            success: true,
+            success: false,
             message: dataNullMessage,
           });
+        }
+        resolve(data);
       } else {
         error.message = queryFailMessage;
         reject(error);
