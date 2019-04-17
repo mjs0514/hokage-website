@@ -54,20 +54,33 @@ header : token
 
 TODO: Http header Authentication vs x-access-token ??
 */
-router.use('/test/:id', function(req, res, next) {
-  console.log('test module');
-  var token = req.headers['x-access-token'];
-  TokenUtil.verify(token, req.params.id)
+router.use('/test', function(req, res, next) {
+  if(req.headers.authorization === undefined){
+    res.status(401).json({
+      message: 'Authorization is undefined',
+    });
+    return;
+  }
+
+  let token = req.header('Authorization').split(' ')[1]; // == req.headers.authorization
+  TokenUtil.verify(token)
     .then((decoded) => {
       req.decoded = decoded;
       next();
     })
-    .catch(next);
+    .catch((error) => {
+      error.status = 401;
+      next(error);
+    });
 })
 
-router.get('/test/:id', function(req, res, next) {
+router.get('/test', function(req, res, next) {
   //사용자가 인증된 사용자인 경우에만 실행되게 하고 싶은 서비스
-  res.json(req.decoded);
+  res.json({
+    success: true,
+    message: 'verify user token',
+    decoded: req.decoded,
+  });
 });
 
 module.exports = router;
