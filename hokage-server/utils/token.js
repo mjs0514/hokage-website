@@ -30,6 +30,22 @@ class TokenUtil {
       });
     });
   }
+
+  static verify(token, userId) {
+    let compareClaim = {
+      audience: userId,
+    };
+
+    return new Promise((resolve, reject)=> {
+      jwt.verify(token, env.secret, compareClaim, (error, decoded) => {
+        if(!error){
+          resolve(decoded);
+        } else {
+          reject(error);
+        }
+      })
+    })
+  }
 }
 
 module.exports = TokenUtil;
