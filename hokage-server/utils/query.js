@@ -6,14 +6,23 @@ let messages = require('../config/messages');
 
 class QueryUtil {
 
+  static findMatchWithId(userId) {
+    let qs = `select * from RECORD_PLAYER where user_id ="${userId}"`;
+    return query(qs, messages.invalidQuery, true, messages.noFoundMatch);
+  }
   static lookupUserPWandSalt(userId) {
     let qs = `select pw, salt from USER_INFO where id="${userId}"`;
     return query(qs, messages.invalidQuery, true, messages.invalidId);
   }
 
   static insertUser(userId, userPw, userEmail, userRegion, userSalt) {
-    let qs = `insert into USER_INFO (id, pw, email, region, salt) values('${userId}', '${userPw}', '${userEmail}', '${userRegion}', '${userSalt}')`;
+    let qs = `insert into USER_INFO (id, pw, email, region, salt) values("${userId}", "${userPw}", "${userEmail}", "${userRegion}", "${userSalt}")`;
     return query(qs, messages.registrationFail);
+  }
+
+  static deleteUser(userId) {
+    let qs = `delete from USER_INFO where id="${userId}"`;
+    return query(qs, messages.invalidQuery);
   }
 
   //lengthCheck - true : data의 길이를 check해서 0이면 reject, 1이상이면 resolve

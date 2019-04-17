@@ -1,23 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var env = require('../../config/env.js');
+let QueryUtil = require('../../utils/query');
+let messages = require('../../config/messages');
 
-router.post('/', function(req, res, next) {
-
-  //var query = `select * from RECORD_MATCH where match_id='${req.body.id}'`;
-  var query = `select * from RECORD_PLAYER where user_id=${req.body.id}`;
-  var check = null;
-  console.log(query);
-  env.conn.query(query, function(error, data) {
-    //   if (data.length != 0) {
-    //     res.send.data;
-    //   }
-    //   else if (data.length == 0) {
-    //     res.send(data);
-    //   }
-    // })
-    console.log(data);
-    res.send(data);
-  })
+router.get('/:id', function(req, res, next) {
+  QueryUtil.findMatchWithId(req.params.id)
+    .then((data) => {
+      res.json({
+        success: true,
+        message: messages.lookupSuccess,
+        match: data,
+      });
+    })
+    .catch(next);
 });
 module.exports = router;

@@ -11,5 +11,7 @@ module.exports = {
   loginSuccess: 'Login Success',
   notFoundUser: 'User Not Found',
   lookupSuccess: 'Look Up Success',
-
+  deleteSuccess: 'Delete Success',
+  noAffected: 'No Rows Affected',
+  noFoundMatch: 'Match Not Found',
 }

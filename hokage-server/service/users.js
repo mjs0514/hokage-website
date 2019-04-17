@@ -75,4 +75,21 @@ router.post('/', function(req, res, next) {
     .catch(next);
 });
 
+/* 사용자 삭제
+method    : DELETE
+url       : /service/users/
+params    : id
+*/
+router.delete('/:id', function(req, res, next) {
+  QueryUtil.deleteUser(req.params.id)
+    .then((data) => {
+      res.json({
+        success: data.affectedRows === 0 ? false : true,
+        message: data.affectedRows === 0 ? messages.notAffected : messages.deleteSuccess,
+        affectedRows: data.affectedRows,
+      });
+    })
+    .catch(next);
+});
+
 module.exports = router;
