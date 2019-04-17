@@ -61,17 +61,15 @@
 export default {
   name: 'Match',
   created() { // created와 computed의 실행 타이밍은?? 차이는?
-    console.log(this.$route.query.id);
-    this.id = this.$route.query.id;
-    let input = {
-      id: this.id
-    }
-    this.$http.post("/service/record/match", input)
-      .then((response) => {
-        this.data = response.data;
-        console.log(this.data[0]);
-        console.log(this.data[1]);
+    this.$http.get(`/service/record/match/${this.$route.query.id}`)
+      .then((res) => {
+        if (res.data.success)
+          this.data = res.data.match;
+        console.log(this.data);
       })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     isWin: function(index) { // v-bind를 통해 특정 값일때 클래스 추가 할수 있음
