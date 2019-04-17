@@ -26,8 +26,6 @@ router.use('/login', function(req, res, next) {
   next();
 });
 
-//TODO express router 예외처리도 생각해서 적용하기
-
 let QueryUtil = require('../../utils/query');
 let PbkdfUtil = require('../../utils/pbkdf');
 let TokenUtil = require('../../utils/token');
@@ -48,6 +46,28 @@ router.post('/login', function(req, res, next) {
       });
     })
     .catch(next);
+});
+
+/*
+인증된 사용자만 호출할 수 있는 테스트 서비스
+header : token
+
+TODO: Http header Authentication vs x-access-token ??
+*/
+router.use('/test/:id', function(req, res, next) {
+  console.log('test module');
+  var token = req.headers['x-access-token'];
+  TokenUtil.verify(token, req.params.id)
+    .then((decoded) => {
+      req.decoded = decoded;
+      next();
+    })
+    .catch(next);
+})
+
+router.get('/test/:id', function(req, res, next) {
+  //사용자가 인증된 사용자인 경우에만 실행되게 하고 싶은 서비스
+  res.json(req.decoded);
 });
 
 module.exports = router;
